@@ -2,52 +2,42 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema } from '@delon/form';
+import { SFSchema, SFUISchema, SFComponent } from '@delon/form';
 
 @Component({
   selector: 'app-settings-tags-edit',
   templateUrl: './edit.component.html',
 })
 export class SettingsTagsEditComponent implements OnInit {
+  @ViewChild('sf', { static: false }) private sf: SFComponent;
   record: any = {};
-  i: any;
   schema: SFSchema = {
     properties: {
-      no: { type: 'string', title: '编号' },
-      owner: { type: 'string', title: '姓名', maxLength: 15 },
-      callNo: { type: 'number', title: '调用次数' },
-      href: { type: 'string', title: '链接', format: 'uri' },
-      description: { type: 'string', title: '描述', maxLength: 140 },
+      name: { type: 'string', title: '名称' },
     },
-    required: ['owner', 'callNo', 'href', 'description'],
+    required: ['name'],
   };
   ui: SFUISchema = {
     '*': {
       spanLabelFixed: 100,
-      grid: { span: 12 },
-    },
-    $no: {
-      widget: 'text',
-    },
-    $href: {
-      widget: 'string',
-    },
-    $description: {
-      widget: 'textarea',
       grid: { span: 24 },
     },
   };
 
   constructor(private modal: NzModalRef, private msgSrv: NzMessageService, public http: _HttpClient) {}
 
-  ngOnInit(): void {
-    if (this.record.id > 0) this.http.get(`/user/${this.record.id}`).subscribe((res) => (this.i = res));
-  }
+  ngOnInit(): void {}
 
   save(value: any) {
-    this.http.post(`/user/${this.record.id}`, value).subscribe((res) => {
+    const url = this.record.id ? `/${this.record.id}` : '';
+    const method = this.record.id ? 'put' : 'post';
+    this.http.request(method, `/api/tags${url}`, { body: value }).subscribe((res: any) => {
+      if (res.code !== 0) {
+        this.msgSrv.warning(res.message);
+        return;
+      }
       this.msgSrv.success('保存成功');
-      this.modal.close(true);
+      this.modal.close(res.data);
     });
   }
 

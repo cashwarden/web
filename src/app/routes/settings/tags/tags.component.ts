@@ -1,44 +1,77 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent } from '@delon/abc/st';
-import { SFSchema } from '@delon/form';
+import { SFSchema, SFSelectWidgetSchema } from '@delon/form';
+import { SettingsTagsEditComponent } from './edit/edit.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-settings-tags',
   templateUrl: './tags.component.html',
 })
 export class SettingsTagsComponent implements OnInit {
-  url = `/user`;
+  @ViewChild('st', { static: false }) st: STComponent;
+
+  loading = true;
+  pagination: {};
+  list: any[] = [];
+  q = {
+    page: 1,
+    name: '',
+  };
+
   searchSchema: SFSchema = {
     properties: {
-      no: {
+      name: {
         type: 'string',
-        title: '编号',
+        title: '名称',
       },
     },
   };
-  @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
-    { title: '编号', index: 'no' },
-    { title: '调用次数', type: 'number', index: 'callNo' },
-    { title: '头像', type: 'img', width: '50px', index: 'avatar' },
-    { title: '时间', type: 'date', index: 'updatedAt' },
+    { title: '名称', index: 'name' },
+    { title: '次数', index: 'count' },
+    { title: '时间', type: 'date', index: 'updated_at' },
     {
       title: '',
       buttons: [
-        // { text: '查看', click: (item: any) => `/form/${item.id}` },
-        // { text: '编辑', type: 'static', component: FormEditComponent, click: 'reload' },
+        {
+          text: '编辑',
+          click: (item: any) => this.form(item),
+        },
       ],
     },
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper) {}
+  constructor(private http: _HttpClient, private modal: ModalHelper, private cdr: ChangeDetectorRef, private msg: NzMessageService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getData();
+  }
 
-  add() {
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
+  getData(): void {
+    this.loading = true;
+    const data = this.http.get('/api/tags', this.q).subscribe((res) => {
+      this.list = res.data.items;
+      this.pagination = res.data._meta;
+      this.loading = false;
+    });
+  }
+
+  form(record: { id?: number } = {}): void {
+    this.modal.create(SettingsTagsEditComponent, { record }, { size: 'md' }).subscribe((res) => {
+      if (record.id) {
+        // record = res;
+        this.getData();
+      } else {
+        this.list.splice(0, 0, res);
+        this.list = [...this.list];
+      }
+    });
+  }
+
+  submit(value: any): void {
+    this.q = value;
+    this.getData();
   }
 }

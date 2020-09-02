@@ -13,6 +13,10 @@ export class SettingsRulesComponent implements OnInit {
   loading = true;
   pagination: {};
   list: any[] = [];
+  q = {
+    page: 1,
+    name: '',
+  };
 
   // url = `/api/records`;
   searchSchema: SFSchema = {
@@ -22,11 +26,6 @@ export class SettingsRulesComponent implements OnInit {
         title: '名称',
       },
     },
-  };
-
-  q = {
-    page: 1,
-    name: '',
   };
 
   @ViewChild('st', { static: false }) st: STComponent;

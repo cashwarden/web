@@ -21,7 +21,6 @@ const routes: Routes = [
     ],
   },
   { path: 'tags', component: SettingsTagsComponent },
-  ,
   { path: 'categories', component: SettingsCategoriesComponent },
 ];
 

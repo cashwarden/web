@@ -21,7 +21,6 @@ const COMPONENTS = [
   SettingsBindingComponent,
   SettingsSecurityComponent,
   SettingsTagsComponent,
-  ,
   SettingsCategoriesComponent,
 ];
 const COMPONENTS_NOROUNT = [

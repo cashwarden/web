@@ -1,44 +1,104 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { _HttpClient, ModalHelper } from '@delon/theme';
 import { STColumn, STComponent } from '@delon/abc/st';
-import { SFSchema } from '@delon/form';
+import { SFSchema, SFSelectWidgetSchema } from '@delon/form';
+import { SettingsCategoriesEditComponent } from './edit/edit.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings-categories',
   templateUrl: './categories.component.html',
 })
 export class SettingsCategoriesComponent implements OnInit {
-  url = `/user`;
+  @ViewChild('st', { static: false }) st: STComponent;
+
+  loading = true;
+  pagination: {};
+  list: any[] = [];
+  q = {
+    page: 1,
+    name: '',
+    transaction_type: '',
+  };
+  transactionTypes: any[] = [];
+
   searchSchema: SFSchema = {
     properties: {
-      no: {
+      name: {
         type: 'string',
-        title: '编号',
+        title: '名称',
+      },
+      transaction_type: {
+        type: 'string',
+        title: '交易类型',
+        default: '',
+        ui: {
+          widget: 'select',
+          asyncData: () => {
+            return this.http.get('/api/transactions/types').pipe(
+              map((res) => {
+                if (res.code !== 0) {
+                  this.msg.warning(res.message);
+                  return;
+                }
+                return res.data.map((item: any) => {
+                  return { value: item.type, label: item.name };
+                });
+              }),
+            );
+          },
+        } as SFSelectWidgetSchema,
       },
     },
   };
-  @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
-    { title: '编号', index: 'no' },
-    { title: '调用次数', type: 'number', index: 'callNo' },
-    { title: '头像', type: 'img', width: '50px', index: 'avatar' },
-    { title: '时间', type: 'date', index: 'updatedAt' },
+    { title: '名称', index: 'name' },
+    { title: '交易类型', index: 'transaction_type' },
+    { title: '排序', index: 'sort' },
+    { title: '时间', type: 'date', index: 'updated_at' },
     {
       title: '',
       buttons: [
-        // { text: '查看', click: (item: any) => `/form/${item.id}` },
-        // { text: '编辑', type: 'static', component: FormEditComponent, click: 'reload' },
+        {
+          text: '编辑',
+          click: (item: any) => this.form(item),
+          iif: (record) => !['adjust', 'transfer'].includes(record.transaction_type),
+          iifBehavior: 'disabled',
+        },
       ],
     },
   ];
 
-  constructor(private http: _HttpClient, private modal: ModalHelper) {}
+  constructor(private http: _HttpClient, private modal: ModalHelper, private cdr: ChangeDetectorRef, private msg: NzMessageService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getData();
+  }
 
-  add() {
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
+  getData(): void {
+    this.loading = true;
+    const data = this.http.get('/api/categories', this.q).subscribe((res) => {
+      this.list = res.data.items;
+      this.pagination = res.data._meta;
+      this.loading = false;
+    });
+  }
+
+  form(record: { id?: number } = {}): void {
+    this.modal.create(SettingsCategoriesEditComponent, { record }, { size: 'md' }).subscribe((res) => {
+      if (record.id) {
+        // record = res;
+        this.getData();
+      } else {
+        this.list.splice(0, 0, res);
+        this.list = [...this.list];
+      }
+    });
+  }
+
+  submit(value: any): void {
+    this.q = value;
+    this.getData();
   }
 }

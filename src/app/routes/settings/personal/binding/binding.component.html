@@ -1,0 +1,19 @@
+<nz-list nzItemLayout="horizontal">
+  <nz-list-item [nzActions]="[telegramOp]">
+    <ng-template #telegramOp>
+      <a (click)="bindTelegram()">修改</a>
+    </ng-template>
+    <nz-list-item-meta nzTitle="绑定 Telegram" [nzAvatar]="telegramAvatar" [nzDescription]="telegramDescription">
+      <ng-template #telegramAvatar>
+        <i nz-icon nzIconfont="icon-telegram" class="icon-sm"></i>
+      </ng-template>
+      <ng-template #telegramDescription>
+        <div *ngIf="!telegram.client_username">当前未绑定 Telegram 账号</div>
+        <div *ngIf="telegram.client_username">
+          当前绑定的 Telegram 账号
+          <a href="https://t.me/{{ telegram.client_username }}" target="_blank">@{{ telegram.client_username }}</a>
+        </div>
+      </ng-template>
+    </nz-list-item-meta>
+  </nz-list-item>
+</nz-list>

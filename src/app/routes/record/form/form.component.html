@@ -1,0 +1,60 @@
+<div class="modal-header">
+  <div class="modal-title">任务编辑</div>
+</div>
+
+<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)" labelWidth="100">
+  <se label="交易类型">
+    <nz-radio-group [(ngModel)]="form.type" nzButtonStyle="solid" name="type" (ngModelChange)="changeCategroy($event)">
+      <label nz-radio-button nzValue="expense"> <span>支出</span> </label>
+      <label nz-radio-button nzValue="income"> <span>收入</span> </label>
+      <label nz-radio-button nzValue="transfer"> <span>转账</span> </label>
+    </nz-radio-group>
+  </se>
+  <se label="支付帐户" *ngIf="['expense', 'transfer'].includes(form.type)">
+    <nz-select [(ngModel)]="form.from_account_id" name="from_account_id" required>
+      <nz-option [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectRawData['account_id']"></nz-option>
+    </nz-select>
+  </se>
+  <se label="收款帐户" *ngIf="['income', 'transfer'].includes(form.type)">
+    <nz-select [(ngModel)]="form.to_account_id" name="to_account_id" required>
+      <nz-option [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectRawData['account_id']"></nz-option>
+    </nz-select>
+  </se>
+  <se label="类别">
+    <nz-select [(ngModel)]="form.category_id" name="category_id" required>
+      <nz-option [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectRawData['category_id']"></nz-option>
+    </nz-select>
+  </se>
+  <se label="金额">
+    <nz-input-group [nzAddOnAfter]="addOnAfterBtn">
+      <input nz-input type="number" [(ngModel)]="form.currency_amount" name="currency_amount" required />
+      <ng-template #addOnAfterBtn>
+        <nz-select [(ngModel)]="form.currency_code" name="currency_code" style="width: 80px;">
+          <nz-option nzLabel="CNY" nzValue="CNY"></nz-option>
+        </nz-select>
+      </ng-template>
+    </nz-input-group>
+  </se>
+  <se label="日期" required>
+    <nz-date-picker [(ngModel)]="form.date" name="date" nzFormat="yyyy-MM-dd"></nz-date-picker>
+  </se>
+  <se label="标签">
+    <nz-select [(ngModel)]="form.tags" nzMode="tags" name="tags">
+      <nz-option *ngFor="let option of selectRawData['tags']" [nzLabel]="option.id" [nzValue]="option.name"></nz-option>
+    </nz-select>
+  </se>
+  <se label="备注" col="1">
+    <textarea [(ngModel)]="form.remark" name="remark" nz-input rows="2"></textarea>
+  </se>
+  <se col="1">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>
+  </se>
+</form>
+
+<!-- <sf #sf mode="edit" [schema]="schema" [formData]="record" button="none">
+  <div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button type="submit" [nzType]="'primary'" (click)="save(sf.value)" [disabled]="!sf.valid">保存</button>
+  </div>
+</sf> -->

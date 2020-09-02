@@ -1,0 +1,128 @@
+<div nz-row [nzGutter]="24" class="pt-lg">
+  <ng-template ngFor let-item [ngForOf]="overview">
+    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+      <g2-card [title]="item.text" [bordered]="true" [total]="'¥ ' + item.overview.surplus" contentHeight="46" [action]="action">
+        <ng-template #action>
+          <i nz-tooltip [nzTooltipTitle]="item.text + '结余'" nz-icon nzType="info-circle"></i>
+        </ng-template>
+        <div class="d-flex justify-content-between text-truncate">
+          <span>支出: {{ item.overview.expense }}</span>
+          <span class="pl-sm">收入: {{ item.overview.income }}</span>
+        </div>
+      </g2-card>
+    </div>
+  </ng-template>
+</div>
+
+<nz-card>
+  <div nz-row [nzGutter]="{ xs: 6, sm: 16, md: 24, lg: 32 }">
+    <div nz-col>
+      <app-record-create-by-desc (created)="onCreated($event)"></app-record-create-by-desc>
+    </div>
+    <div nz-col>
+      <button nz-button (click)="form()" [nzType]="'default'">
+        <i nz-icon nzType="plus"></i>
+        <span>经典记账</span>
+      </button>
+    </div>
+  </div>
+</nz-card>
+
+<nz-card>
+  <form nz-form se-container="1" size="compact" gutter="32" [labelWidth]="null">
+    <se label="所属账户" line>
+      <tag-select>
+        <nz-tag
+          *ngFor="let i of selectData['account_id']; let idx = index"
+          nzMode="checkable"
+          [nzChecked]="i.value"
+          (nzCheckedChange)="changeSelect($event, idx, 'account_id')"
+        >
+          {{ i.name }}
+        </nz-tag>
+      </tag-select>
+    </se>
+    <se label="所属分类" line>
+      <tag-select>
+        <nz-tag
+          *ngFor="let i of selectData['category_id']; let idx = index"
+          nzMode="checkable"
+          [nzChecked]="i.value"
+          (nzCheckedChange)="changeSelect($event, idx, 'category_id')"
+        >
+          {{ i.name }}
+        </nz-tag>
+      </tag-select>
+    </se>
+    <se label="交易类型" line>
+      <tag-select [expandable]="false">
+        <nz-tag
+          *ngFor="let i of selectData['transaction_type']; let idx = index"
+          nzMode="checkable"
+          [nzChecked]="i.value"
+          (nzCheckedChange)="changeSelect($event, idx, 'transaction_type')"
+        >
+          {{ i.name }}
+        </nz-tag>
+      </tag-select>
+    </se>
+  </form>
+</nz-card>
+
+<nz-card>
+  <nz-list [nzLoading]="loading">
+    <ng-container *ngFor="let item of list">
+      {{ item.date }} / 支出：{{ item.out }} / 收入：{{ item.in }}
+      <nz-list-item *ngFor="let record of item.records" [nzContent]="nzContent" [nzActions]="[edit, del]">
+        <ng-template #edit>
+          <a disabled *ngIf="!record.transaction">编辑</a>
+          <a (click)="form(record)" *ngIf="record.transaction">编辑</a>
+        </ng-template>
+        <ng-template #del>
+          <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(record)">
+            删除
+          </a>
+        </ng-template>
+        <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription" [nzAvatar]="nzAvatar">
+          <ng-template #nzTitle>
+            <a (click)="form(item)">{{ record?.category?.name }}</a>
+          </ng-template>
+          <ng-template #nzDescription>
+            <p>
+              {{ record?.transaction?.description }}
+            </p>
+          </ng-template>
+          <ng-template #nzAvatar>
+            <div class="record-icon">
+              <i nz-icon nzIconfont="icon-{{ record.category?.icon_name }}"></i>
+            </div>
+          </ng-template>
+        </nz-list-item-meta>
+        <ng-template #nzContent>
+          <div class="width-md">
+            <p>{{ record.account?.name }}</p>
+          </div>
+          <div class="width-md">
+            <div *ngFor="let tag of record?.transaction?.tags">
+              <nz-tag>{{ tag }}</nz-tag>
+            </div>
+          </div>
+          <div class="width-md">
+            <p>{{ record?.transaction?.remark }}</p>
+          </div>
+          <div class="width-md">
+            <p [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
+              {{ record.direction === 'expense' ? '-' : '' }}
+              {{ record.currency_code }}
+              {{ record.currency_amount }}
+            </p>
+          </div>
+        </ng-template>
+      </nz-list-item>
+      <!-- <nz-skeleton *ngIf="item.loading" [nzAvatar]="true" [nzActive]="true" [nzTitle]="false" [nzLoading]="true"> </nz-skeleton> -->
+    </ng-container>
+    <div class="loadmore" nz-list-load-more>
+      <button nz-button *ngIf="!loadingMore" (click)="onLoadMore()">更多</button>
+    </div>
+  </nz-list>
+</nz-card>

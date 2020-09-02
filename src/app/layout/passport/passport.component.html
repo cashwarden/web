@@ -1,0 +1,17 @@
+<div class="container">
+  <!-- <header-i18n showLangText="false" class="langs"></header-i18n> -->
+  <div class="wrap">
+    <div class="top">
+      <div class="head">
+        <img class="logo" src="./assets/logo-color.svg" />
+        <span class="title">CashWarden</span>
+      </div>
+      <div class="desc">为您提供开源的资产管理</div>
+    </div>
+    <router-outlet></router-outlet>
+    <global-footer [links]="links">
+      Copyright
+      <i class="anticon anticon-copyright"></i> 2020 <a href="//github.com/cashwarden" target="_blank">CashWarden </a>出品
+    </global-footer>
+  </div>
+</div>

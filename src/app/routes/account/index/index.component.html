@@ -1,0 +1,99 @@
+<div class="pt-lg">
+  <nz-card>
+    <div nz-row>
+      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+        <span class="text-grey-dark">净资产</span>
+        <span class="d-block display-2">{{ statistics?.net_asset }}</span>
+        <em></em>
+      </div>
+      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+        <span class="text-grey-dark">负债</span>
+        <span class="d-block display-2">{{ statistics?.liabilities }}</span>
+        <em></em>
+      </div>
+      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+        <span class="text-grey-dark">总资产</span>
+        <span class="d-block display-2">{{ statistics?.total_assets }}</span>
+      </div>
+      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+        <span class="text-grey-dark">统计账户数</span>
+        <span class="d-block display-2">{{ statistics?.count }}</span>
+      </div>
+    </div>
+  </nz-card>
+</div>
+
+<nz-card>
+  <form nz-form [nzLayout]="'inline'" (ngSubmit)="getData()" class="search__form">
+    <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
+      <div nz-col nzMd="8" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="name">账户名称</nz-form-label>
+          <nz-form-control>
+            <input nz-input [(ngModel)]="q.name" name="name" placeholder="请输入" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzMd="8" nzSm="24">
+        <nz-form-item>
+          <nz-form-label nzFor="type">账户类型</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="q.type" name="status" [nzPlaceHolder]="'请选择'" [nzShowSearch]="true">
+              <nz-option *ngFor="let i of accountTypes; let idx = index" [nzLabel]="i.name" [nzValue]="idx"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col [nzSpan]="8">
+        <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading">查询</button>
+        <button nz-button type="reset" (click)="reset()" class="mx-sm">重置</button>
+      </div>
+    </div>
+  </form>
+  <button nz-button (click)="form()" [nzType]="'primary'">
+    <i nz-icon nzType="plus"></i>
+    <span>新建</span>
+  </button>
+</nz-card>
+
+<nz-list
+  [nzDataSource]="list"
+  [nzLoading]="loading"
+  [nzRenderItem]="item"
+  [nzPagination]="pagination"
+  [nzGrid]="{ gutter: 24, lg: 8, md: 12, sm: 24, xs: 24 }"
+>
+  <ng-template #item let-item>
+    <g2-card [title]="title" [bordered]="true" [total]="item.balance" [footer]="footer" [avatar]="avatar" [action]="action">
+      <ng-template #title>
+        <p (click)="form(item)">{{ item.name }}</p>
+      </ng-template>
+      <ng-template #avatar>
+        <div class="account-icon" (click)="form(item)">
+          <i nz-icon nzIconfont="icon-{{ item.type }}"></i>
+        </div>
+      </ng-template>
+      <ng-template #action>
+        <span class="pl-sm">
+          <i nz-icon nzType="edit" (click)="form(item)"></i>
+        </span>
+        <span class="pl-sm">
+          <i
+            nz-icon
+            nzType="delete"
+            nz-popconfirm
+            nzPopconfirmTitle="Are you sure delete this?"
+            nzPopconfirmPlacement="bottom"
+            (nzOnConfirm)="delete(item)"
+          ></i>
+        </span>
+      </ng-template>
+      <ng-template #footer>
+        <p>{{ item.type_name }}</p>
+      </ng-template>
+    </g2-card>
+  </ng-template>
+  <ng-template #pagination>
+    <nz-pagination [nzTotal]="pagination.pageCount" [nzPageSize]="pagination.perPage" (nzPageIndexChange)="getData()"></nz-pagination>
+  </ng-template>
+</nz-list>

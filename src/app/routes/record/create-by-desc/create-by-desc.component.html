@@ -1,0 +1,8 @@
+<form nz-form nzLayout="inline" (ngSubmit)="submit()" se-container>
+  <se label="快速记账" error="最多120字">
+    <input type="text" nz-input [(ngModel)]="i.description" name="description" maxlength="120" autocomplete="off" />
+  </se>
+  <se>
+    <button nz-button nzType="primary" [disabled]="!i.description">提交</button>
+  </se>
+</form>

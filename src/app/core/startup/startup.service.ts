@@ -175,10 +175,10 @@ export class StartupService {
     // only works with promises
     // https://github.com/angular/angular/issues/15088
     return new Promise((resolve, reject) => {
+      // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
+      this.viaMockI18n(resolve, reject);
       // http
       this.viaHttp(resolve, reject);
-      // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
-      // this.viaMockI18n(resolve, reject);
     });
   }
 }

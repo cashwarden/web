@@ -82,7 +82,6 @@ export class UserRegisterComponent implements OnDestroy {
       this.form.controls[key].updateValueAndValidity();
     });
     if (this.form.invalid) {
-      console.log(this.form);
       return;
     }
 
@@ -92,9 +91,10 @@ export class UserRegisterComponent implements OnDestroy {
         this.error = res.message;
         return;
       }
-      //  this.router.navigateByUrl('/passport/register-result', {
-      //    queryParams: { email: data.mail },
-      //  });
+      this.msg.success('注册成功，请登录');
+      this.router.navigateByUrl('/passport/login', {
+        queryParams: { email: data.email },
+      });
     });
   }
 

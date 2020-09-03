@@ -22,7 +22,7 @@ export class AccountIndexComponent implements OnInit {
 
   loading = true;
   pagination: {};
-  statistics: { count: number; net_asset: number; total_assets: number; liabilities: number };
+  overview: { count: number; net_asset: number; total_assets: number; liabilities: number };
 
   constructor(
     private http: _HttpClient,
@@ -33,7 +33,7 @@ export class AccountIndexComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getStatistics();
+    this.getOverview();
     this.getData();
     this.getAccountTypes();
   }
@@ -76,9 +76,10 @@ export class AccountIndexComponent implements OnInit {
     this.getData();
   }
 
-  getStatistics(): void {
-    this.http.get('/api/accounts/statistics').subscribe((res) => {
-      this.statistics = res.data;
+  getOverview(): void {
+    this.http.get('/api/accounts/overview').subscribe((res) => {
+      this.overview = res.data;
+      this.cdr.detectChanges();
     });
   }
 

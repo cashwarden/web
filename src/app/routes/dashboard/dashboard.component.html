@@ -1,5 +1,27 @@
 <div class="pt-lg">
-  <nz-list [nzDataSource]="accounts" [nzRenderItem]="item" [nzGrid]="{ gutter: 18, lg: 6, md: 9, sm: 18, xs: 18 }">
+  <nz-card>
+    <div nz-row>
+      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+        <span class="text-grey-dark">净资产</span>
+        <span class="d-block display-2">{{ accountOverview?.net_asset }}</span>
+        <em></em>
+      </div>
+      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+        <span class="text-grey-dark">负债</span>
+        <span class="d-block display-2">{{ accountOverview?.liabilities }}</span>
+        <em></em>
+      </div>
+      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+        <span class="text-grey-dark">总资产</span>
+        <span class="d-block display-2">{{ accountOverview?.total_assets }}</span>
+      </div>
+      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
+        <span class="text-grey-dark">账户数</span>
+        <span class="d-block display-2">{{ accountOverview?.count }}</span>
+      </div>
+    </div>
+  </nz-card>
+  <!-- <nz-list [nzDataSource]="accounts" [nzRenderItem]="item" [nzGrid]="{ gutter: 18, lg: 6, md: 9, sm: 18, xs: 18 }">
     <ng-template #item let-item>
       <g2-card [title]="title" [bordered]="true" [total]="item.balance" [avatar]="avatar">
         <ng-template #title>
@@ -12,11 +34,15 @@
         </ng-template>
       </g2-card>
     </ng-template>
-  </nz-list>
+  </nz-list> -->
+
+  <nz-card [nzLoading]="recordsAnalysisLoading" nzTitle="消费趋势" class="mb-0">
+    <g2-bar height="200" [title]="'日支出曲线'" *ngIf="recordsAnalysisData" [data]="recordsAnalysisData"></g2-bar>
+  </nz-card>
 
   <div nz-row [nzGutter]="24">
     <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">
-      <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="最近5笔支出" class="mb-0">
+      <nz-card [nzLoading]="loading" nzTitle="最近5笔支出" class="mb-0">
         <nz-list>
           <ng-container *ngFor="let item of lastRecords">
             {{ item.date }} / 支出：{{ item.out }} / 收入：{{ item.in }}

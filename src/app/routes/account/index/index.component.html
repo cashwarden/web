@@ -3,21 +3,21 @@
     <div nz-row>
       <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
         <span class="text-grey-dark">净资产</span>
-        <span class="d-block display-2">{{ statistics?.net_asset }}</span>
+        <span class="d-block display-2">{{ overview?.net_asset }}</span>
         <em></em>
       </div>
       <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
         <span class="text-grey-dark">负债</span>
-        <span class="d-block display-2">{{ statistics?.liabilities }}</span>
+        <span class="d-block display-2">{{ overview?.liabilities }}</span>
         <em></em>
       </div>
       <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
         <span class="text-grey-dark">总资产</span>
-        <span class="d-block display-2">{{ statistics?.total_assets }}</span>
+        <span class="d-block display-2">{{ overview?.total_assets }}</span>
       </div>
       <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
-        <span class="text-grey-dark">统计账户数</span>
-        <span class="d-block display-2">{{ statistics?.count }}</span>
+        <span class="text-grey-dark">账户数</span>
+        <span class="d-block display-2">{{ overview?.count }}</span>
       </div>
     </div>
   </nz-card>

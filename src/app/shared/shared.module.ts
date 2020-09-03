@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
 
+import { G2BarModule } from '@delon/chart/bar';
 import { G2CardModule } from '@delon/chart/card';
 import { G2PieModule } from '@delon/chart/pie';
 
@@ -37,6 +38,7 @@ const DIRECTIVES = [];
     DelonFormModule,
     G2CardModule,
     G2PieModule,
+    G2BarModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs
@@ -58,6 +60,7 @@ const DIRECTIVES = [];
     TranslateModule,
     G2CardModule,
     G2PieModule,
+    G2BarModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs

@@ -40,7 +40,7 @@ export class StartupService {
   }
 
   private viaHttp(resolve: any, reject: any) {
-    zip(this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`), this.httpClient.get('assets/tmp/app-data.json'))
+    zip(this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`), this.httpClient.get('api/site-config'))
       .pipe(
         catchError((res) => {
           console.warn(`StartupService.load: Network request failed`, res);
@@ -55,7 +55,9 @@ export class StartupService {
           this.translate.setDefaultLang(this.i18n.defaultLang);
 
           // Application data
-          const res: any = appData;
+          console.log(appData);
+
+          const res: any = appData.data;
           // Application information: including site name, description, year
           this.settingService.setApp(res.app);
           // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
@@ -174,9 +176,9 @@ export class StartupService {
     // https://github.com/angular/angular/issues/15088
     return new Promise((resolve, reject) => {
       // http
-      // this.viaHttp(resolve, reject);
+      this.viaHttp(resolve, reject);
       // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
-      this.viaMockI18n(resolve, reject);
+      // this.viaMockI18n(resolve, reject);
     });
   }
 }

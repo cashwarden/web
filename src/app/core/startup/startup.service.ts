@@ -55,8 +55,6 @@ export class StartupService {
           this.translate.setDefaultLang(this.i18n.defaultLang);
 
           // Application data
-          console.log(appData);
-
           const res: any = appData.data;
           // Application information: including site name, description, year
           this.settingService.setApp(res.app);

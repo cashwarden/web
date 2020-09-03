@@ -30,8 +30,12 @@ export class SettingsBindingComponent implements OnInit {
 
   ngOnInit() {
     this.titleSrv.setTitle('账号绑定');
+    this.getData();
+  }
+
+  getData() {
     this.http.get('/api/users/auth-clients').subscribe((res) => {
-      this.telegram = res.data.telegram;
+      this.telegram = res.data?.telegram;
       this.cdr.detectChanges();
     });
   }
@@ -43,7 +47,7 @@ export class SettingsBindingComponent implements OnInit {
         nzWidth: '500px',
         nzTitle: '绑定 Telegram 账号',
         nzContent: `将下面的绑定码复制发送给 Telegram 机器人 <a href="https://t.me/CashwardenBot" target="_blank">@CashwardenBot</a> </br> <code>${code}</code>`,
-        nzOnOk: () => console.log('Info OK'),
+        nzOnOk: () => this.getData(),
       });
     });
   }

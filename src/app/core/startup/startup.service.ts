@@ -9,6 +9,7 @@ import { zip } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { I18NService } from '../i18n/i18n.service';
 
+import { environment } from '@env/environment';
 import { NzIconService } from 'ng-zorro-antd/icon';
 import { ICONS } from '../../../style-icons';
 import { ICONS_AUTO } from '../../../style-icons-auto';
@@ -30,8 +31,12 @@ export class StartupService {
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private httpClient: HttpClient,
     private injector: Injector,
+    private iconService: NzIconService,
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
+    this.iconService.fetchFromIconfont({
+      scriptUrl: environment.iconfontURl,
+    });
   }
 
   private viaHttp(resolve: any, reject: any) {

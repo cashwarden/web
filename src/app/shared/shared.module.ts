@@ -11,6 +11,7 @@ import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
 
 import { G2CardModule } from '@delon/chart/card';
+import { G2PieModule } from '@delon/chart/pie';
 
 // #region third libs
 
@@ -35,6 +36,7 @@ const DIRECTIVES = [];
     DelonACLModule,
     DelonFormModule,
     G2CardModule,
+    G2PieModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs
@@ -55,6 +57,7 @@ const DIRECTIVES = [];
     DelonFormModule,
     TranslateModule,
     G2CardModule,
+    G2PieModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs

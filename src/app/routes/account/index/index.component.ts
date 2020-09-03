@@ -1,10 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivationEnd, Router } from '@angular/router';
-import { STColumn, STComponent } from '@delon/abc/st';
-import { SFSchema } from '@delon/form';
+import { Router } from '@angular/router';
 import { ModalHelper, _HttpClient } from '@delon/theme';
-import { environment } from '@env/environment';
-import { NzIconService } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { AccountFormComponent } from './../form/form.component';
 
@@ -34,12 +30,7 @@ export class AccountIndexComponent implements OnInit {
     private modal: ModalHelper,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private iconService: NzIconService,
-  ) {
-    this.iconService.fetchFromIconfont({
-      scriptUrl: environment.iconfontURl,
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.getStatistics();

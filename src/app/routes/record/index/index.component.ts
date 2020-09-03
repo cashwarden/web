@@ -1,11 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ModalHelper, _HttpClient } from '@delon/theme';
-import { environment } from '@env/environment';
-import { NzIconService } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { RecordFormComponent } from './../form/form.component';
-const count = 5;
+
 @Component({
   selector: 'app-record-index',
   styleUrls: ['./index.component.less'],
@@ -31,13 +29,8 @@ export class RecordIndexComponent implements OnInit {
     private msg: NzMessageService,
     private modal: ModalHelper,
     private cdr: ChangeDetectorRef,
-    private iconService: NzIconService,
     private datePipe: DatePipe,
-  ) {
-    this.iconService.fetchFromIconfont({
-      scriptUrl: environment.iconfontURl,
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.getData();

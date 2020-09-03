@@ -41,7 +41,7 @@ export class RecordFormComponent implements OnInit {
   save(value: any) {
     const url = this.record?.id ? `/${this.record.id}` : '';
     const method = this.record?.id ? 'put' : 'post';
-    value.date = format(new Date(value.date), 'yyyy-MM-dd');
+    value.date = format(new Date(value.date), 'yyyy-MM-dd HH:mm');
 
     this.http.request(method, `/api/transactions${url}`, { body: value }).subscribe((res: any) => {
       if (res.code !== 0) {

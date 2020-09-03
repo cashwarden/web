@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { _HttpClient, ModalHelper } from '@delon/theme';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema, SFSelectWidgetSchema } from '@delon/form';
-import { SettingsTagsEditComponent } from './edit/edit.component';
+import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { SettingsTagsEditComponent } from './edit/edit.component';
 
 @Component({
   selector: 'app-settings-tags',

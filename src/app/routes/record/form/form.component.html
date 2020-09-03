@@ -36,7 +36,7 @@
     </nz-input-group>
   </se>
   <se label="日期" required>
-    <nz-date-picker [(ngModel)]="form.date" name="date" nzFormat="yyyy-MM-dd"></nz-date-picker>
+    <nz-date-picker [(ngModel)]="form.date" name="date" nzFormat="yyyy-MM-dd HH:mm" [nzShowTime]="{ nzFormat: 'HH:mm' }"></nz-date-picker>
   </se>
   <se label="标签">
     <nz-select [(ngModel)]="form.tags" nzMode="tags" name="tags">

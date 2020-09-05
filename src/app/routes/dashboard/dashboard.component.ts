@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
 
   getCategoryiesData() {
     this.http.get('/api/categories/analysis').subscribe((res) => {
-      this.categoriesData = res.data;
+      this.categoriesData = res.data.filter((i: any) => i.y > 0);
       if (this.categoriesData) {
         this.categoriesTotal = this.categoriesData.reduce((pre, now) => now.y + pre, 0);
       }

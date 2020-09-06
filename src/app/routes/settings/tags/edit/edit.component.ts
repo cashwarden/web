@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NzModalRef } from 'ng-zorro-antd/modal';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { SFComponent, SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema, SFComponent } from '@delon/form';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-settings-tags-edit',

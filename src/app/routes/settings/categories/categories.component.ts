@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { _HttpClient, ModalHelper } from '@delon/theme';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema, SFSelectWidgetSchema } from '@delon/form';
-import { SettingsCategoriesEditComponent } from './edit/edit.component';
+import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { map } from 'rxjs/operators';
+import { SettingsCategoriesEditComponent } from './edit/edit.component';
 
 @Component({
   selector: 'app-settings-categories',
@@ -54,7 +54,7 @@ export class SettingsCategoriesComponent implements OnInit {
   };
   columns: STColumn[] = [
     { title: '名称', index: 'name' },
-    { title: '交易类型', index: 'transaction_type' },
+    { title: '交易类型', index: 'transaction_type_text' },
     { title: '排序', index: 'sort' },
     { title: '时间', type: 'date', index: 'updated_at' },
     {

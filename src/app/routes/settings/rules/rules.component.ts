@@ -32,7 +32,7 @@ export class SettingsRulesComponent implements OnInit {
   columns: STColumn[] = [
     { title: '名称 ', index: 'name' },
     { title: '关键词', index: 'if_keywords' },
-    { title: '分配交易类型', index: 'then_transaction_type' },
+    { title: '分配交易类型', index: 'then_transaction_type_text' },
     { title: '排序', index: 'sort' },
     {
       title: '状态',

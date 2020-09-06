@@ -39,6 +39,17 @@ export class SettingsTagsComponent implements OnInit {
           text: '编辑',
           click: (item: any) => this.form(item),
         },
+        {
+          text: '删除',
+          pop: {
+            title: 'Yar you sure?',
+            okType: 'danger',
+            icon: 'star',
+          },
+          click: (record, _modal, comp) => {
+            this.delete(record, comp);
+          },
+        },
       ],
     },
   ];
@@ -67,6 +78,19 @@ export class SettingsTagsComponent implements OnInit {
         this.list.splice(0, 0, res);
         this.list = [...this.list];
       }
+    });
+  }
+
+  delete(record: any, comp): void {
+    this.http.delete(`/api/tags/${record.id}`).subscribe((res) => {
+      if (res?.code !== 0) {
+        this.msg.warning(res?.message);
+        return;
+      }
+      // tslint:disable-next-line: no-non-null-assertion
+      comp!.removeRow(record);
+      // this.getData();
+      this.msg.success('删除成功');
     });
   }
 

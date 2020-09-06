@@ -122,6 +122,7 @@ export class AccountIndexComponent implements OnInit {
         return;
       }
       this.getData();
+      this.getOverview();
       this.msg.success('删除成功');
     });
   }

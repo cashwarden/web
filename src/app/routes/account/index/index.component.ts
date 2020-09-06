@@ -110,6 +110,7 @@ export class AccountIndexComponent implements OnInit {
         this.list.splice(0, 0, res);
         this.list = [...this.list];
       }
+      this.getOverview();
       this.cdr.detectChanges();
     });
   }

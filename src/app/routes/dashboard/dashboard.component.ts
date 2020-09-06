@@ -43,7 +43,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getLastRecords() {
-    this.http.get('/api/records', { pageSize: 5 }).subscribe((res) => {
+    this.http.get('/api/records', { pageSize: 5, transaction_type: 'expense' }).subscribe((res) => {
       this.lastRecords = res.data.items;
       this.loading = false;
       this.cdr.detectChanges();

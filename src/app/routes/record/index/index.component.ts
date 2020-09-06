@@ -130,6 +130,7 @@ export class RecordIndexComponent implements OnInit {
       .create(RecordFormComponent, { record: record.transaction, selectRawData: this.selectRawData }, { size: 'md' })
       .subscribe((res) => {
         this.getData();
+        this.getOverview();
         this.cdr.detectChanges();
       });
   }
@@ -141,6 +142,7 @@ export class RecordIndexComponent implements OnInit {
         return;
       }
       this.getData();
+      this.getOverview();
       this.msg.success('删除成功');
     });
   }
@@ -148,6 +150,7 @@ export class RecordIndexComponent implements OnInit {
   onCreated(created: boolean) {
     if (created) {
       this.getData();
+      this.getOverview();
     }
   }
 }

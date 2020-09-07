@@ -47,7 +47,7 @@ export class RecordIndexComponent implements OnInit {
     this.http.get('/api/records', this.q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
-      if (res.data._meta.pageCount === res.data._meta.currentPage) {
+      if (res.data._meta.pageCount <= res.data._meta.currentPage) {
         this.loadingMore = false;
       }
       this.loading = false;
@@ -73,7 +73,7 @@ export class RecordIndexComponent implements OnInit {
     this.http.get('/api/records', this.q).subscribe((res: any) => {
       const data = this.list.concat(res.data.items);
       this.list = [...data];
-      if (res.data._meta.pageCount === res.data._meta.currentPage) {
+      if (res.data._meta.pageCount <= res.data._meta.currentPage) {
         this.loadingMore = false;
       }
     });

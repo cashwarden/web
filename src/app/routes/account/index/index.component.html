@@ -24,7 +24,7 @@
 </div>
 
 <nz-card>
-  <form nz-form [nzLayout]="'inline'" (ngSubmit)="getData()" class="search__form">
+  <form nz-form [nzLayout]="'inline'" (ngSubmit)="submit()" class="search__form">
     <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
       <div nz-col nzMd="8" nzSm="24">
         <nz-form-item>
@@ -38,8 +38,8 @@
         <nz-form-item>
           <nz-form-label nzFor="type">账户类型</nz-form-label>
           <nz-form-control>
-            <nz-select [(ngModel)]="q.type" name="status" [nzPlaceHolder]="'请选择'" [nzShowSearch]="true">
-              <nz-option *ngFor="let i of accountTypes; let idx = index" [nzLabel]="i.name" [nzValue]="idx"></nz-option>
+            <nz-select [(ngModel)]="q.type" name="type" [nzPlaceHolder]="'请选择'" [nzShowSearch]="true">
+              <nz-option *ngFor="let i of accountTypes" [nzLabel]="i.name" [nzValue]="i.type"></nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>

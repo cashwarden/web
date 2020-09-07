@@ -55,25 +55,11 @@ export class AccountIndexComponent implements OnInit {
         return;
       }
       if (res.data) {
-        const init = { id: 0, name: '全部', value: false };
-        const data = res.data.map((item: any) => ({ id: item.type, name: item.name, value: false }));
-        this.accountTypes = [init, ...data];
+        const init = { type: '', name: '全部' };
+        this.accountTypes = [init, ...res.data];
         this.cdr.detectChanges();
       }
     });
-  }
-
-  changeAccountType(status: boolean, idx: number): void {
-    if (idx === 0) {
-      this.accountTypes.map((i: any) => (i.value = status));
-    } else {
-      this.accountTypes[idx].value = status;
-    }
-    this.q.type = this.accountTypes
-      .filter((i: any) => i.value === true)
-      .map((i: any) => i.id)
-      .toString();
-    this.getData();
   }
 
   getOverview(): void {
@@ -84,6 +70,8 @@ export class AccountIndexComponent implements OnInit {
   }
 
   submit(): void {
+    console.log(this.q);
+
     this.getData();
   }
 

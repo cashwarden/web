@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NzModalRef } from 'ng-zorro-antd/modal';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { SFComponent, SFRadioWidgetSchema, SFSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
-import { SFSchema, SFUISchema, SFRadioWidgetSchema, SFComponent } from '@delon/form';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-settings-categories-edit',
@@ -28,6 +28,7 @@ export class SettingsCategoriesEditComponent implements OnInit {
         } as SFRadioWidgetSchema,
         default: 'expense',
       },
+      sort: { type: 'number', title: '排序', minimum: 0, maximum: 99, default: 99 },
     },
     required: ['name', 'transaction_type'],
   };

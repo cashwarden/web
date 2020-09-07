@@ -2,7 +2,7 @@
 <form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
   <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
   <nz-form-item>
-    <nz-form-control [nzErrorTip]="emailErrorTip">
+    <nz-form-control [nzErrorTip]="emailErrorTip" nzExtra="找回密码的唯一途径">
       <nz-input-group nzSize="large" nzPrefixIcon="mail">
         <input nz-input formControlName="email" name="email" placeholder="Email" />
       </nz-input-group>

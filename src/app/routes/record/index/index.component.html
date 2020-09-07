@@ -84,12 +84,14 @@
           </a>
         </ng-template>
         <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription" [nzAvatar]="nzAvatar">
-          <ng-template #nzTitle>
+          <ng-template #nzTitle class="width-md">
             <a (click)="form(item)">{{ record?.category?.name }}</a>
           </ng-template>
           <ng-template #nzDescription>
             <p>
-              {{ record?.transaction?.description }}
+              {{ record.transaction.description }}
+
+              <span *ngIf="record.transaction.remark">（{{ record.transaction.remark }}）</span>
             </p>
           </ng-template>
           <ng-template #nzAvatar>
@@ -106,9 +108,6 @@
             <div *ngFor="let tag of record?.transaction?.tags">
               <nz-tag>{{ tag }}</nz-tag>
             </div>
-          </div>
-          <div class="width-md">
-            <p>{{ record?.transaction?.remark }}</p>
           </div>
           <div class="width-md">
             <p [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">

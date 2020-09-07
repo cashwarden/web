@@ -90,7 +90,7 @@
           <ng-template #nzDescription>
             <p>
               {{ record.transaction?.description }}
-              <span *ngIf="record.transaction.remark">（{{ record.transaction.remark }}）</span>
+              <span *ngIf="record.transaction?.remark">（{{ record.transaction.remark }}）</span>
             </p>
           </ng-template>
           <ng-template #nzAvatar>

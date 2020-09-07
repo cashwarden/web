@@ -42,9 +42,8 @@ export class SettingsTagsComponent implements OnInit {
         {
           text: '删除',
           pop: {
-            title: 'Yar you sure?',
+            title: '确定要删除吗？',
             okType: 'danger',
-            icon: 'star',
           },
           click: (record, _modal, comp) => {
             this.delete(record, comp);

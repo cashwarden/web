@@ -79,7 +79,7 @@
           <a (click)="form(record)" *ngIf="record.transaction">编辑</a>
         </ng-template>
         <ng-template #del>
-          <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this?" nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(record)">
+          <a nz-popconfirm nzPopconfirmTitle="确定要删除吗？" nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(record)">
             删除
           </a>
         </ng-template>

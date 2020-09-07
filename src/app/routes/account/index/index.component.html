@@ -64,7 +64,7 @@
   [nzGrid]="{ gutter: 24, lg: 8, md: 12, sm: 24, xs: 24 }"
 >
   <ng-template #item let-item>
-    <g2-card [title]="title" [bordered]="true" [total]="item.balance" [footer]="footer" [avatar]="avatar" [action]="action">
+    <g2-card [title]="title" [bordered]="true" [total]="item.balance | _currency" [footer]="footer" [avatar]="avatar" [action]="action">
       <ng-template #title>
         <p (click)="form(item)">{{ item.name }}</p>
       </ng-template>
@@ -89,7 +89,8 @@
         </span>
       </ng-template>
       <ng-template #footer>
-        <p>{{ item.type_name }}</p>
+        <nz-tag>{{ item.type_name }}</nz-tag>
+        <nz-tag *ngIf="item.default">默认账户</nz-tag>
       </ng-template>
     </g2-card>
   </ng-template>

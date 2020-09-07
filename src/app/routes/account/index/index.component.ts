@@ -91,13 +91,7 @@ export class AccountIndexComponent implements OnInit {
 
   form(record: { id?: number } = {}): void {
     this.modal.create(AccountFormComponent, { record }, { size: 'md' }).subscribe((res) => {
-      if (record.id) {
-        // record = res;
-        this.getData();
-      } else {
-        this.list.splice(0, 0, res);
-        this.list = [...this.list];
-      }
+      this.getData();
       this.getOverview();
       this.cdr.detectChanges();
     });

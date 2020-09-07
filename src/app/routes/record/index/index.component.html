@@ -100,7 +100,7 @@
           </ng-template>
         </nz-list-item-meta>
         <ng-template #nzContent>
-          <div class="width-md">
+          <div class="width-sm">
             <p>{{ record.account?.name }}</p>
           </div>
           <div class="width-md">
@@ -108,7 +108,7 @@
               <nz-tag>{{ tag }}</nz-tag>
             </div>
           </div>
-          <div class="width-md">
+          <div class="width-sm">
             <p [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
               {{ record.direction === 'expense' ? '-' : '' }}
               {{ record.currency_code }}
@@ -120,7 +120,7 @@
       <!-- <nz-skeleton *ngIf="item.loading" [nzAvatar]="true" [nzActive]="true" [nzTitle]="false" [nzLoading]="true"> </nz-skeleton> -->
     </ng-container>
     <div class="loadmore" nz-list-load-more>
-      <button nz-button *ngIf="!loadingMore" (click)="onLoadMore()">更多</button>
+      <button nz-button *ngIf="loadingMore" (click)="onLoadMore()">更多</button>
     </div>
   </nz-list>
 </nz-card>

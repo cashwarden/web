@@ -58,12 +58,12 @@
                 </ng-template>
               </nz-list-item-meta>
               <ng-template #nzContent>
-                <div class="width-md">
+                <div class="width-sm">
                   <p>
                     {{ record?.account.name }}
                   </p>
                 </div>
-                <div class="width-md">
+                <div class="width-sm">
                   <p [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
                     {{ record.direction === 'expense' ? '-' : '' }}
                     {{ record.currency_code }}

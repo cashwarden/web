@@ -18,11 +18,11 @@ export class RecordIndexComponent implements OnInit {
   list: Array<{ date: string; records: []; in: string; out: string }> = [];
 
   loading = true;
-  loadingMore = false;
+  loadingMore = true;
   selectRawData: any = {};
   selectData: any = {};
   overview: [];
-  pagination: {};
+  pagination: { totalCount: number; pageCount: number; currentPage: number; perPage: number };
 
   constructor(
     private http: _HttpClient,
@@ -43,9 +43,13 @@ export class RecordIndexComponent implements OnInit {
 
   getData(): void {
     this.loading = true;
+    this.loadingMore = true;
     this.http.get('/api/records', this.q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
+      if (res.data._meta.pageCount === res.data._meta.currentPage) {
+        this.loadingMore = false;
+      }
       this.loading = false;
       this.cdr.detectChanges();
     });
@@ -69,7 +73,7 @@ export class RecordIndexComponent implements OnInit {
     this.http.get('/api/records', this.q).subscribe((res: any) => {
       const data = this.list.concat(res.data.items);
       this.list = [...data];
-      if (res.data._meta.pageCount !== res.data._meta.currentPage) {
+      if (res.data._meta.pageCount === res.data._meta.currentPage) {
         this.loadingMore = false;
       }
     });

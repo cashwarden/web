@@ -23,18 +23,11 @@ export class AppComponent implements OnInit {
   ) {
     renderer.setAttribute(el.nativeElement, 'ng-alain-version', VERSION_ALAIN.full);
     renderer.setAttribute(el.nativeElement, 'ng-zorro-version', VERSION_ZORRO.full);
-
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {
-        gtag('config', settings.app.google_analytics, {
-          page_path: event.urlAfterRedirects,
-        });
-      }
-    });
   }
 
   ngOnInit() {
-    this.router.events.pipe(filter((evt) => evt instanceof NavigationEnd)).subscribe(() => {
+    this.router.events.pipe(filter((evt) => evt instanceof NavigationEnd)).subscribe((e: NavigationEnd) => {
+      gtag('config', this.settings.app.google_analytics, { page_path: e.urlAfterRedirects });
       this.titleSrv.setTitle();
       this.modalSrv.closeAll();
     });

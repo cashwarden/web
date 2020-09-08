@@ -136,7 +136,7 @@ export class SettingsRulesFormComponent {
           return;
         }
         return res.data.items.map((item: any) => {
-          if (key === 'tags') {
+          if (key === 'then_tags') {
             return { value: item.name, label: item.name };
           }
           return { value: item.id, label: item.name };

@@ -12,7 +12,10 @@ import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
 
 import { G2BarModule } from '@delon/chart/bar';
 import { G2CardModule } from '@delon/chart/card';
+import { G2GaugeModule } from '@delon/chart/gauge';
 import { G2PieModule } from '@delon/chart/pie';
+import { G2TagCloudModule } from '@delon/chart/tag-cloud';
+import { G2WaterWaveModule } from '@delon/chart/water-wave';
 
 // #region third libs
 
@@ -39,6 +42,9 @@ const DIRECTIVES = [];
     G2CardModule,
     G2PieModule,
     G2BarModule,
+    G2TagCloudModule,
+    G2GaugeModule,
+    G2WaterWaveModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs
@@ -61,6 +67,9 @@ const DIRECTIVES = [];
     G2CardModule,
     G2PieModule,
     G2BarModule,
+    G2TagCloudModule,
+    G2GaugeModule,
+    G2WaterWaveModule,
     ...SHARED_DELON_MODULES,
     ...SHARED_ZORRO_MODULES,
     // third libs

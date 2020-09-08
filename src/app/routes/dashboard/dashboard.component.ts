@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { G2BarClickItem, G2BarData } from '@delon/chart/bar';
 import { G2PieClickItem, G2PieData } from '@delon/chart/pie';
+import { G2TagCloudClickItem, G2TagCloudData } from '@delon/chart/tag-cloud';
 import { _HttpClient } from '@delon/theme';
 import { yuan } from '@shared';
 import { zip } from 'rxjs';
@@ -12,10 +13,11 @@ import { zip } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardComponent implements OnInit {
-  accounts: Array<{ name: string }> = [];
+  accounts: Array<{ name: string; balance: number; type_name: string; type: string }> = [];
   lastRecords: Array<{ date: string; out: string; in: string; records: [] }> = [];
   loading = true;
   data: any = {};
+  tags: G2TagCloudData[];
 
   categoriesData: G2PieData[];
   categoriesTotal = 0;
@@ -23,20 +25,22 @@ export class DashboardComponent implements OnInit {
   recordsAnalysisData: G2BarData[];
   recordsAnalysisLoading = true;
 
-  overview: { overview: {}; key: string; text: string };
+  recordsOverview: { overview: {}; key: string; text: string };
+  accountsOverview: { percent: number; color: string };
 
   constructor(private http: _HttpClient, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    //  this.getAccounts();
+    this.getAccounts();
     this.getOverview();
+    this.getTags();
     this.getLastRecords();
     this.getCategoryiesData();
     this.getRecordAnalysisData();
   }
 
   getAccounts(): void {
-    this.http.get('/api/accounts', { pageSize: 100 }).subscribe((res) => {
+    this.http.get('/api/accounts', { pageSize: 3, sort: '-balance_cent' }).subscribe((res) => {
       this.accounts = res.data.items;
       this.loading = false;
       this.cdr.detectChanges();
@@ -63,7 +67,7 @@ export class DashboardComponent implements OnInit {
     this.http.get('/api/categories/analysis').subscribe((res) => {
       this.categoriesData = res.data.filter((i: any) => i.y > 0);
       if (this.categoriesData) {
-        this.categoriesTotal = this.categoriesData.reduce((pre, now) => now.y + pre, 0);
+        this.categoriesTotal = this.categoriesData.reduce((pre, now) => Math.round((now.y + pre) * 100) / 100, 0);
       }
       this.loading = false;
       this.cdr.detectChanges();
@@ -71,8 +75,22 @@ export class DashboardComponent implements OnInit {
   }
 
   getOverview(): void {
-    this.http.get('/api/records/overview').subscribe((res) => {
-      this.overview = res.data;
+    zip(this.http.get('/api/accounts/overview'), this.http.get('/api/records/overview')).subscribe(([accounts, records]: [any, any]) => {
+      this.recordsOverview = records.data;
+      const percent = (accounts.data.net_asset <= 0 ? 0 : accounts.data.total_assets / accounts.data.net_asset) * 100;
+      this.accountsOverview = { percent, color: percent > 50 ? '#2f9cff' : '#f50' };
+      // this.accountsOverview.percent = accounts.data.total_assets / accounts.data.net_asset;
+      this.cdr.detectChanges();
+    });
+  }
+
+  getTags(): void {
+    this.http.get('/api/tags', { sort: 'count' }).subscribe((res) => {
+      const data = res.data.items.filter((i: any) => i.count > 0);
+      if (data) {
+        this.tags = res.data.items.map((item: any) => ({ value: item.count, name: item.name }));
+      }
+      console.log(this.tags);
       this.cdr.detectChanges();
     });
   }

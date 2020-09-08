@@ -35,7 +35,7 @@ export class RecordFormComponent implements OnInit {
       this.form = this.record;
       this.form.date = toDate(this.record.date);
     }
-    this.changeCategroy(this.form.type, false);
+    this.changeCategroy(this.form.type);
   }
 
   save(value: any) {
@@ -53,7 +53,7 @@ export class RecordFormComponent implements OnInit {
     });
   }
 
-  changeCategroy(type: string, cleanCity = true) {
+  changeCategroy(type: string) {
     this.http.get('/api/categories', { transaction_type: type }).subscribe((res: any) => {
       if (res.code !== 0) {
         this.msgSrv.warning(res.message);

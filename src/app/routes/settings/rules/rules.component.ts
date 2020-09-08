@@ -13,6 +13,7 @@ export class SettingsRulesComponent implements OnInit {
   loading = true;
   pagination: {};
   list: any[] = [];
+  selectRawData: any = {};
   q = {
     page: 1,
     name: '',
@@ -76,6 +77,9 @@ export class SettingsRulesComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
+    this.loadSelect('/api/accounts', 'account_id');
+    this.loadSelect('/api/categories', 'category_id');
+    this.loadSelect('/api/tags', 'tags');
   }
 
   getData(): void {
@@ -88,14 +92,8 @@ export class SettingsRulesComponent implements OnInit {
   }
 
   form(record: { id?: number } = {}): void {
-    this.modal.create(SettingsRulesFormComponent, { record }, { size: 'md' }).subscribe((res) => {
-      if (record.id) {
-        // record = res;
-        this.getData();
-      } else {
-        this.list.splice(0, 0, res);
-        this.list = [...this.list];
-      }
+    this.modal.create(SettingsRulesFormComponent, { record, selectRawData: this.selectRawData }, { size: 'md' }).subscribe((res) => {
+      this.getData();
     });
   }
 
@@ -130,6 +128,26 @@ export class SettingsRulesComponent implements OnInit {
       }
       this.getData();
       this.message.success('更新成功');
+    });
+  }
+
+  loadSelect(url: string, key: string) {
+    this.http.get(url).subscribe((res: any) => {
+      if (res.data) {
+        if (key === 'tags') {
+          this.selectRawData[key] = res.data.items.map((item: any) => ({ value: item.name, label: item.name }));
+        } else if (key === 'transaction_type') {
+          this.selectRawData[key] = res.data.map((item: any) => ({ value: item.type, label: item.name }));
+        } else if (key === 'category_id') {
+          this.selectRawData[key] = res.data.items.map((item: any) => ({
+            value: item.id,
+            label: item.name,
+            transaction_type: item.transaction_type,
+          }));
+        } else {
+          this.selectRawData[key] = res.data.items.map((item: any) => ({ value: item.id, label: item.name }));
+        }
+      }
     });
   }
 

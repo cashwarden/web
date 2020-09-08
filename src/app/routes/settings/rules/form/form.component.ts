@@ -3,7 +3,8 @@ import { SFComponent, SFRadioWidgetSchema, SFSchema, SFSelectWidgetSchema, SFUIS
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { map } from 'rxjs/operators';
+import { of, pipe } from 'rxjs';
+import { delay, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-settings-rules-form',
@@ -12,6 +13,7 @@ import { map } from 'rxjs/operators';
 export class SettingsRulesFormComponent {
   @ViewChild('sf', { static: false }) private sf: SFComponent;
   record: any = {};
+  selectRawData: any = {};
   schema: SFSchema = {
     properties: {
       name: { type: 'string', title: '名称' },
@@ -27,15 +29,20 @@ export class SettingsRulesFormComponent {
       then_transaction_type: {
         type: 'string',
         title: '分配交易类型',
-        enum: [
-          { value: 'expense', label: '支出' },
-          { value: 'income', label: '收入' },
-          { value: 'transfer', label: '转账' },
-        ],
         ui: {
           widget: 'radio',
           styleType: 'button',
           buttonStyle: 'solid',
+          asyncData: () =>
+            of([
+              { value: 'expense', label: '支出' },
+              { value: 'income', label: '收入' },
+              { value: 'transfer', label: '转账' },
+            ]).pipe(
+              delay(100),
+              tap(() => this.updateCategories(this.record.then_transaction_type || 'expense', this.record.then_category_id)),
+            ),
+          change: (i) => this.updateCategories(i, ''),
         } as SFRadioWidgetSchema,
         default: 'expense',
       },
@@ -44,7 +51,8 @@ export class SettingsRulesFormComponent {
         title: '分配支付帐户',
         ui: {
           widget: 'select',
-          asyncData: () => this.loadItems('/api/accounts', 'then_from_account_id'),
+          visibleIf: { then_transaction_type: ['expense', 'transfer'] },
+          asyncData: () => of(this.selectRawData.account_id).pipe(delay(200)),
         } as SFSelectWidgetSchema,
       },
       then_to_account_id: {
@@ -52,7 +60,8 @@ export class SettingsRulesFormComponent {
         title: '分配收款帐户',
         ui: {
           widget: 'select',
-          asyncData: () => this.loadItems('/api/accounts', 'then_to_account_id'),
+          visibleIf: { then_transaction_type: ['income', 'transfer'] },
+          asyncData: () => of(this.selectRawData.account_id).pipe(delay(200)),
         } as SFSelectWidgetSchema,
       },
       then_category_id: {
@@ -60,7 +69,6 @@ export class SettingsRulesFormComponent {
         title: '分配类别',
         ui: {
           widget: 'select',
-          asyncData: () => this.loadItems('/api/categories', 'then_category_id'),
         } as SFSelectWidgetSchema,
       },
       then_tags: {
@@ -70,7 +78,8 @@ export class SettingsRulesFormComponent {
         ui: {
           widget: 'select',
           mode: 'tags',
-          asyncData: () => this.loadItems('/api/tags', 'then_tags'),
+          visibleIf: { then_transaction_type: ['income', 'expense'] },
+          asyncData: () => of(this.selectRawData.tags).pipe(delay(200)),
         } as SFSelectWidgetSchema,
       },
       sort: { type: 'number', title: '排序', minimum: 0, maximum: 99, default: 99 },
@@ -143,6 +152,13 @@ export class SettingsRulesFormComponent {
         });
       }),
     );
+  }
+
+  updateCategories(type: string, category_id: number): void {
+    const property = this.sf.getProperty('/then_category_id');
+    const items = this.selectRawData.category_id.filter((item: any) => item.transaction_type === type);
+    property.schema.enum = items;
+    property.widget.reset(category_id || items[0]);
   }
 
   close() {

@@ -3,6 +3,7 @@ import { G2BarClickItem, G2BarData } from '@delon/chart/bar';
 import { G2PieClickItem, G2PieData } from '@delon/chart/pie';
 import { _HttpClient } from '@delon/theme';
 import { yuan } from '@shared';
+import { zip } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +23,7 @@ export class DashboardComponent implements OnInit {
   recordsAnalysisData: G2BarData[];
   recordsAnalysisLoading = true;
 
-  accountOverview: { count: number; net_asset: number; total_assets: number; liabilities: number };
+  overview: { overview: {}; key: string; text: string };
 
   constructor(private http: _HttpClient, private cdr: ChangeDetectorRef) {}
 
@@ -70,8 +71,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getOverview(): void {
-    this.http.get('/api/accounts/overview').subscribe((res) => {
-      this.accountOverview = res.data;
+    this.http.get('/api/records/overview').subscribe((res) => {
+      this.overview = res.data;
       this.cdr.detectChanges();
     });
   }

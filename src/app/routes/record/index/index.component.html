@@ -1,32 +1,18 @@
-<div nz-row [nzGutter]="24" class="pt-lg">
-  <ng-template ngFor let-item [ngForOf]="overview">
-    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
-      <g2-card [title]="item.text" [bordered]="true" [total]="'¥ ' + item.overview.surplus" contentHeight="46" [action]="action">
-        <ng-template #action>
-          <i nz-tooltip [nzTooltipTitle]="item.text + '结余'" nz-icon nzType="info-circle"></i>
-        </ng-template>
-        <div class="d-flex justify-content-between text-truncate">
-          <span>支出: {{ item.overview.expense }}</span>
-          <span class="pl-sm">收入: {{ item.overview.income }}</span>
-        </div>
-      </g2-card>
+<div class="pt-lg">
+  <nz-card>
+    <div nz-row [nzGutter]="{ xs: 6, sm: 16, md: 24, lg: 32 }">
+      <div nz-col>
+        <app-record-create-by-desc (created)="onCreated($event)"></app-record-create-by-desc>
+      </div>
+      <div nz-col>
+        <button nz-button (click)="form()" [nzType]="'default'">
+          <i nz-icon nzType="plus"></i>
+          <span>经典记账</span>
+        </button>
+      </div>
     </div>
-  </ng-template>
+  </nz-card>
 </div>
-
-<nz-card>
-  <div nz-row [nzGutter]="{ xs: 6, sm: 16, md: 24, lg: 32 }">
-    <div nz-col>
-      <app-record-create-by-desc (created)="onCreated($event)"></app-record-create-by-desc>
-    </div>
-    <div nz-col>
-      <button nz-button (click)="form()" [nzType]="'default'">
-        <i nz-icon nzType="plus"></i>
-        <span>经典记账</span>
-      </button>
-    </div>
-  </div>
-</nz-card>
 
 <nz-card nzTitle="搜索条件">
   <form nz-form se-container="1" size="compact" gutter="32" [labelWidth]="null">

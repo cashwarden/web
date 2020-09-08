@@ -34,7 +34,6 @@ export class RecordIndexComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
-    this.getOverview();
     this.loadSelect('/api/accounts', 'account_id');
     this.loadSelect('/api/categories', 'category_id');
     this.loadSelect('/api/tags', 'tags');
@@ -51,18 +50,6 @@ export class RecordIndexComponent implements OnInit {
         this.loadingMore = false;
       }
       this.loading = false;
-      this.cdr.detectChanges();
-    });
-  }
-
-  getOverview(): void {
-    this.http.get('/api/records/overview').subscribe((res) => {
-      if (res.code !== 0) {
-        this.msg.warning(res.message);
-        return;
-      }
-      this.overview = res.data;
-      // console.log(this.overview);
       this.cdr.detectChanges();
     });
   }
@@ -134,7 +121,6 @@ export class RecordIndexComponent implements OnInit {
       .create(RecordFormComponent, { record: record.transaction, selectRawData: this.selectRawData }, { size: 'md' })
       .subscribe((res) => {
         this.getData();
-        this.getOverview();
         this.cdr.detectChanges();
       });
   }
@@ -146,7 +132,6 @@ export class RecordIndexComponent implements OnInit {
         return;
       }
       this.getData();
-      this.getOverview();
       this.msg.success('删除成功');
     });
   }
@@ -154,7 +139,6 @@ export class RecordIndexComponent implements OnInit {
   onCreated(created: boolean) {
     if (created) {
       this.getData();
-      this.getOverview();
     }
   }
 }

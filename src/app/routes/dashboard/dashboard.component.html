@@ -1,27 +1,19 @@
-<div class="pt-lg">
-  <nz-card>
-    <div nz-row>
-      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
-        <span class="text-grey-dark">净资产</span>
-        <span class="d-block display-2">{{ accountOverview?.net_asset }}</span>
-        <em></em>
-      </div>
-      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
-        <span class="text-grey-dark">负债</span>
-        <span class="d-block display-2">{{ accountOverview?.liabilities }}</span>
-        <em></em>
-      </div>
-      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
-        <span class="text-grey-dark">总资产</span>
-        <span class="d-block display-2">{{ accountOverview?.total_assets }}</span>
-      </div>
-      <div nz-col [nzXs]="24" [nzSm]="6" class="header-info">
-        <span class="text-grey-dark">账户数</span>
-        <span class="d-block display-2">{{ accountOverview?.count }}</span>
-      </div>
+<div nz-row [nzGutter]="24" class="pt-lg">
+  <ng-template ngFor let-item [ngForOf]="overview">
+    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+      <g2-card [title]="item.text" [bordered]="true" [total]="'¥ ' + item.overview.surplus" contentHeight="46" [action]="action">
+        <ng-template #action>
+          <i nz-tooltip [nzTooltipTitle]="item.text + '结余'" nz-icon nzType="info-circle"></i>
+        </ng-template>
+        <div class="d-flex justify-content-between text-truncate">
+          <span>支出: {{ item.overview.expense }}</span>
+          <span class="pl-sm">收入: {{ item.overview.income }}</span>
+        </div>
+      </g2-card>
     </div>
-  </nz-card>
-  <!-- <nz-list [nzDataSource]="accounts" [nzRenderItem]="item" [nzGrid]="{ gutter: 18, lg: 6, md: 9, sm: 18, xs: 18 }">
+  </ng-template>
+</div>
+<!-- <nz-list [nzDataSource]="accounts" [nzRenderItem]="item" [nzGrid]="{ gutter: 18, lg: 6, md: 9, sm: 18, xs: 18 }">
     <ng-template #item let-item>
       <g2-card [title]="title" [bordered]="true" [total]="item.balance" [avatar]="avatar">
         <ng-template #title>
@@ -36,61 +28,60 @@
     </ng-template>
   </nz-list> -->
 
-  <nz-card [nzLoading]="recordsAnalysisLoading" nzTitle="消费趋势" class="mb-0">
-    <g2-bar height="200" [title]="'日支出曲线'" *ngIf="recordsAnalysisData" [data]="recordsAnalysisData"></g2-bar>
-  </nz-card>
+<nz-card [nzLoading]="recordsAnalysisLoading" nzTitle="消费趋势" class="mb-0">
+  <g2-bar height="200" [title]="'日支出曲线'" *ngIf="recordsAnalysisData" [data]="recordsAnalysisData"></g2-bar>
+</nz-card>
 
-  <div nz-row [nzGutter]="24">
-    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">
-      <nz-card [nzLoading]="loading" nzTitle="最近6笔支出" class="mb-0">
-        <nz-list>
-          <ng-container *ngFor="let item of lastRecords">
-            {{ item.date }} / 支出：{{ item.out }} / 收入：{{ item.in }}
-            <nz-list-item *ngFor="let record of item.records" [nzContent]="nzContent">
-              <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar">
-                <ng-template #nzTitle>
-                  <a>{{ record?.category?.name }}</a>
-                </ng-template>
-                <ng-template #nzAvatar>
-                  <div class="record-icon">
-                    <i nz-icon nzIconfont="icon-{{ record.category?.icon_name }}"></i>
-                  </div>
-                </ng-template>
-              </nz-list-item-meta>
-              <ng-template #nzContent>
-                <div class="width-sm">
-                  <p>
-                    {{ record?.account.name }}
-                  </p>
-                </div>
-                <div class="width-sm">
-                  <p [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
-                    {{ record.direction === 'expense' ? '-' : '' }}
-                    {{ record.currency_code }}
-                    {{ record.currency_amount }}
-                  </p>
+<div nz-row [nzGutter]="24">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">
+    <nz-card [nzLoading]="loading" nzTitle="最近6笔支出" class="mb-0">
+      <nz-list>
+        <ng-container *ngFor="let item of lastRecords">
+          {{ item.date }} / 支出：{{ item.out }} / 收入：{{ item.in }}
+          <nz-list-item *ngFor="let record of item.records" [nzContent]="nzContent">
+            <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar">
+              <ng-template #nzTitle>
+                <a>{{ record?.category?.name }}</a>
+              </ng-template>
+              <ng-template #nzAvatar>
+                <div class="record-icon">
+                  <i nz-icon nzIconfont="icon-{{ record.category?.icon_name }}"></i>
                 </div>
               </ng-template>
-            </nz-list-item>
-          </ng-container>
-        </nz-list>
-      </nz-card>
-    </div>
+            </nz-list-item-meta>
+            <ng-template #nzContent>
+              <div class="width-sm">
+                <p>
+                  {{ record?.account.name }}
+                </p>
+              </div>
+              <div class="width-sm">
+                <p [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
+                  {{ record.direction === 'expense' ? '-' : '' }}
+                  {{ record.currency_code }}
+                  {{ record.currency_amount }}
+                </p>
+              </div>
+            </ng-template>
+          </nz-list-item>
+        </ng-container>
+      </nz-list>
+    </nz-card>
+  </div>
 
-    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">
-      <nz-card [nzLoading]="loading" nzTitle="本月支出分类" class="sales-card mb-0" style="min-height: 502.5px;">
-        <g2-pie
-          *ngIf="categoriesData"
-          [data]="categoriesData"
-          [hasLegend]="true"
-          subTitle="总支出"
-          [height]="248"
-          [lineWidth]="4"
-          [total]="categoriesTotal"
-          [valueFormat]="handlePieValueFormat"
-        >
-        </g2-pie>
-      </nz-card>
-    </div>
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">
+    <nz-card [nzLoading]="loading" nzTitle="本月支出分类" style="min-height: 502.5px;">
+      <g2-pie
+        *ngIf="categoriesData"
+        [data]="categoriesData"
+        [hasLegend]="true"
+        subTitle="总支出"
+        [height]="248"
+        [lineWidth]="4"
+        [total]="categoriesTotal"
+        [valueFormat]="handlePieValueFormat"
+      >
+      </g2-pie>
+    </nz-card>
   </div>
 </div>

@@ -42,7 +42,7 @@ export class SettingsRulesFormComponent {
               delay(100),
               tap(() => this.updateCategories(this.record.then_transaction_type || 'expense', this.record.then_category_id)),
             ),
-          change: (i) => this.updateCategories(i, ''),
+          change: (i) => this.updateCategories(i, null),
         } as SFRadioWidgetSchema,
         default: 'expense',
       },
@@ -78,7 +78,6 @@ export class SettingsRulesFormComponent {
         ui: {
           widget: 'select',
           mode: 'tags',
-          visibleIf: { then_transaction_type: ['income', 'expense'] },
           asyncData: () => of(this.selectRawData.tags).pipe(delay(200)),
         } as SFSelectWidgetSchema,
       },

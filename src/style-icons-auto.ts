@@ -8,6 +8,8 @@ import {
   ArrowDownOutline,
   CloudOutline,
   CopyrightOutline,
+  DeleteOutline,
+  FieldTimeOutline,
   FullscreenExitOutline,
   FullscreenOutline,
   GithubOutline,
@@ -25,6 +27,7 @@ import {
   TeamOutline,
   ToolOutline,
   UserOutline,
+  EditOutline,
 } from '@ant-design/icons-angular/icons';
 
 export const ICONS_AUTO = [
@@ -49,4 +52,7 @@ export const ICONS_AUTO = [
   TeamOutline,
   ToolOutline,
   UserOutline,
+  FieldTimeOutline,
+  DeleteOutline,
+  EditOutline,
 ];

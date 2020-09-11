@@ -16,37 +16,13 @@
 
 <nz-card nzTitle="搜索条件">
   <form nz-form se-container="1" size="compact" gutter="32" [labelWidth]="null">
-    <se label="所属账户" line>
+    <se *ngFor="let selectLabel of selectLabels" [label]="selectLabel.label" line>
       <tag-select>
         <nz-tag
-          *ngFor="let i of selectData['account_id']; let idx = index"
+          *ngFor="let i of selectData[selectLabel.key]; let idx = index"
           nzMode="checkable"
           [nzChecked]="i.value"
-          (nzCheckedChange)="changeSelect($event, idx, 'account_id')"
-        >
-          {{ i.name }}
-        </nz-tag>
-      </tag-select>
-    </se>
-    <se label="所属分类" line>
-      <tag-select>
-        <nz-tag
-          *ngFor="let i of selectData['category_id']; let idx = index"
-          nzMode="checkable"
-          [nzChecked]="i.value"
-          (nzCheckedChange)="changeSelect($event, idx, 'category_id')"
-        >
-          {{ i.name }}
-        </nz-tag>
-      </tag-select>
-    </se>
-    <se label="交易类型" line>
-      <tag-select [expandable]="false">
-        <nz-tag
-          *ngFor="let i of selectData['transaction_type']; let idx = index"
-          nzMode="checkable"
-          [nzChecked]="i.value"
-          (nzCheckedChange)="changeSelect($event, idx, 'transaction_type')"
+          (nzCheckedChange)="changeSelect($event, idx, selectLabel.key)"
         >
           {{ i.name }}
         </nz-tag>
@@ -59,14 +35,19 @@
   <nz-list [nzLoading]="loading">
     <ng-container *ngFor="let item of list">
       {{ item.date }} / 支出：{{ item.out }} / 收入：{{ item.in }}
-      <nz-list-item *ngFor="let record of item.records" [nzContent]="nzContent" [nzActions]="[edit, del]">
+      <nz-list-item *ngFor="let record of item.records" [nzContent]="nzContent" [nzActions]="[edit, recurrence, del]">
         <ng-template #edit>
-          <a disabled *ngIf="!record.transaction">编辑</a>
-          <a (click)="form(record)" *ngIf="record.transaction">编辑</a>
+          <a disabled *ngIf="!record.transaction"><i nz-icon nzType="edit" theme="outline"></i></a>
+          <a (click)="form(record)" *ngIf="record.transaction"><i nz-icon nzType="edit" theme="outline"></i></a>
+        </ng-template>
+        <ng-template #recurrence>
+          <a (click)="recurrenceForm(record)" nz-tooltip nzTooltipTitle="添加定时记账">
+            <i nz-icon nzType="field-time" theme="outline"></i>
+          </a>
         </ng-template>
         <ng-template #del>
           <a nz-popconfirm nzPopconfirmTitle="确定要删除吗？" nzPopconfirmPlacement="bottom" (nzOnConfirm)="delete(record)">
-            删除
+            <i nz-icon nzType="delete" theme="outline"></i>
           </a>
         </ng-template>
         <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription" [nzAvatar]="nzAvatar">
@@ -87,9 +68,10 @@
         </nz-list-item-meta>
         <ng-template #nzContent>
           <div class="width-sm">
-            <p>{{ record.account?.name }}</p>
+            <p><nz-badge [nzColor]="record.account?.color" [nzText]="record.account?.name"></nz-badge></p>
+            <p nz-typography nzType="secondary" class="text-sm">来源：{{ record.source_text }}</p>
           </div>
-          <div class="width-md">
+          <div class="width-sm">
             <div *ngFor="let tag of record?.transaction?.tags">
               <nz-tag>{{ tag }}</nz-tag>
             </div>

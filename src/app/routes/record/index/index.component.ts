@@ -1,7 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { RecurrenceFormComponent } from '../../recurrence/form/form.component';
 import { RecordFormComponent } from './../form/form.component';
 
 @Component({
@@ -21,6 +23,13 @@ export class RecordIndexComponent implements OnInit {
   loadingMore = true;
   selectRawData: any = {};
   selectData: any = {};
+  selectLabels: any = [
+    { key: 'account_id', label: '所属账户' },
+    { key: 'category_id', label: '所属分类' },
+    { key: 'tags', label: '所属标签' },
+    { key: 'transaction_type', label: '交易类型' },
+    { key: 'source', label: '记录来源' },
+  ];
   overview: [];
   pagination: { totalCount: number; pageCount: number; currentPage: number; perPage: number };
 
@@ -30,6 +39,7 @@ export class RecordIndexComponent implements OnInit {
     private modal: ModalHelper,
     private cdr: ChangeDetectorRef,
     private datePipe: DatePipe,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -38,6 +48,7 @@ export class RecordIndexComponent implements OnInit {
     this.loadSelect('/api/categories', 'category_id');
     this.loadSelect('/api/tags', 'tags');
     this.loadSelect('/api/transactions/types', 'transaction_type');
+    this.loadSelect('/api/records/sources', 'source');
   }
 
   getData(): void {
@@ -85,7 +96,7 @@ export class RecordIndexComponent implements OnInit {
         const init = { id: 0, name: '全部', value: false };
         if (key === 'tags') {
           this.selectRawData[key] = res.data.items.map((item: any) => ({ id: item.name, name: item.name, value: false }));
-        } else if (key === 'transaction_type') {
+        } else if (['transaction_type', 'source'].includes(key)) {
           this.selectRawData[key] = res.data.map((item: any) => ({ id: item.type, name: item.name, value: false }));
         } else {
           this.selectRawData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name, value: false }));
@@ -123,6 +134,12 @@ export class RecordIndexComponent implements OnInit {
         this.getData();
         this.cdr.detectChanges();
       });
+  }
+
+  recurrenceForm(record: { transaction_id?: number } = {}): void {
+    this.modal.create(RecurrenceFormComponent, { record: { transaction_id: record.transaction_id } }, { size: 'md' }).subscribe((res) => {
+      this.router.navigateByUrl(`/recurrence/index`);
+    });
   }
 
   delete(record: any): void {

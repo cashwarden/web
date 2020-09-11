@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <div class="modal-title">编辑 {{ record.id }} 信息</div>
+</div>
+<sf #sf mode="edit" [schema]="schema" [ui]="ui" [formData]="record" button="none">
+  <sv-container *ngIf="transaction">
+    <sv-title>记录详情</sv-title>
+    <sv label="交易类型"> {{ transaction.type_text }} </sv>
+    <sv label="支付账户"> {{ transaction.fromAccount?.name }}</sv>
+    <sv label="收款账户">{{ transaction.toAccount?.name }} </sv>
+    <sv label="类别"> {{ transaction.category?.name }}</sv>
+    <sv label="金额">{{ transaction.amount }}</sv>
+    <sv label="标签">{{ transaction.tags }}</sv>
+    <sv label="备注">{{ transaction.remark }}</sv>
+  </sv-container>
+  <div class="modal-footer">
+    <button nz-button type="button" (click)="close()">关闭</button>
+    <button nz-button type="submit" nzType="primary" (click)="save(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">
+      保存
+    </button>
+  </div>
+</sf>

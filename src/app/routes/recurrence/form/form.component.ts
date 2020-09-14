@@ -30,17 +30,15 @@ export class RecurrenceFormComponent implements OnInit {
                   return { value: item.type, label: item.name };
                 });
               }),
-              tap(() => this.updateSchedule(this.record.frequency, Number(this.record.schedule))),
             );
           },
-          change: (i: string) => this.updateSchedule(i, 0),
         } as SFSelectWidgetSchema,
       },
       schedule: {
         type: 'string',
         title: '时间值',
+        description: '每周范围：1～7；每月范围1～31；每年范围：01-01～12-31',
         ui: {
-          widget: 'select',
           visibleIf: { frequency: ['week', 'month', 'year'] },
         } as SFSelectWidgetSchema,
       },
@@ -49,7 +47,10 @@ export class RecurrenceFormComponent implements OnInit {
         title: '开始时间',
         format: 'date',
         default: new Date(),
-        // ui: { widget: 'date' } as SFDateWidgetSchema,
+        ui: {
+          widget: 'date',
+          disabledDate: (date) => new Date(date.toDateString()) < new Date(new Date().toDateString()),
+        } as SFDateWidgetSchema,
       },
       status: {
         type: 'string',
@@ -99,29 +100,6 @@ export class RecurrenceFormComponent implements OnInit {
       this.transaction = res.data;
       this.cdr.detectChanges();
     });
-  }
-
-  updateSchedule(frequency: string, schedule?: number): void {
-    const property = this.sf.getProperty('/schedule');
-    let items = [];
-    switch (frequency) {
-      case 'week':
-        items = [...Array(7).keys()].map((x) => x + 1);
-        break;
-      case 'month':
-        items = [...Array(31).keys()].map((x) => x + 1);
-        break;
-      case 'year':
-        items = [];
-        break;
-      default:
-        break;
-    }
-
-    property.schema.enum = items;
-    if (schedule) {
-      property.widget.reset(schedule || items[0]);
-    }
   }
 
   close() {

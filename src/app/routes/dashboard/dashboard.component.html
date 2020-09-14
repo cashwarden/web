@@ -1,6 +1,6 @@
 <div nz-row [nzGutter]="24" class="pt-lg">
   <ng-template ngFor let-item [ngForOf]="recordsOverview">
-    <div nz-col nzXs="24" nzSm="12" nzMd="12" nzLg="6">
+    <div nz-col nzXs="24" nzSm="10" nzMd="10" nzLg="4">
       <g2-card [title]="item.text" [bordered]="true" [total]="'¥ ' + item.overview.surplus" contentHeight="46" [action]="action">
         <ng-template #action>
           <i nz-tooltip [nzTooltipTitle]="item.text + '结余'" nz-icon nzType="info-circle"></i>

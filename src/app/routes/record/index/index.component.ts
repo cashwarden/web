@@ -12,23 +12,38 @@ import { RecordFormComponent } from './../form/form.component';
   templateUrl: './index.component.html',
 })
 export class RecordIndexComponent implements OnInit {
-  q = {
+  // q:{page:number} = {}
+  q: {
+    page: number;
+    keyword?: string;
+    category_id?: string;
+    account_id?: string;
+    transaction_type?: string;
+    source?: string;
+    date?: string;
+  } = {
     page: 1,
-    cagegory_id: '0',
+    keyword: '',
+    category_id: '',
+    account_id: '',
+    transaction_type: '',
+    source: '',
+    date: '',
   };
+  date: [];
 
   list: Array<{ date: string; records: []; in: string; out: string }> = [];
 
   loading = true;
   loadingMore = true;
-  selectRawData: any = {};
+  expandForm = false;
   selectData: any = {};
   selectLabels: any = [
-    { key: 'account_id', label: '所属账户' },
-    { key: 'category_id', label: '所属分类' },
-    { key: 'tags', label: '所属标签' },
-    { key: 'transaction_type', label: '交易类型' },
-    { key: 'source', label: '记录来源' },
+    { key: 'account_id', label: '账户' },
+    { key: 'category_id', label: '分类' },
+    // { key: 'tags', label: '所属标签' },
+    { key: 'transaction_type', label: '类型' },
+    { key: 'source', label: '来源' },
   ];
   overview: [];
   pagination: { totalCount: number; pageCount: number; currentPage: number; perPage: number };
@@ -54,7 +69,15 @@ export class RecordIndexComponent implements OnInit {
   getData(): void {
     this.loading = true;
     this.loadingMore = true;
-    this.http.get('/api/records', this.q).subscribe((res) => {
+    if (this.date) {
+      this.q.date = this.date.map((item: any) => this.datePipe.transform(item, 'yyyy-MM-dd')).join('~');
+    }
+    const q = {};
+    Object.entries(this.q)
+      .filter(([, value]) => value !== null)
+      .map(([key, value]) => (q[key] = value));
+
+    this.http.get('/api/records', q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
       if (res.data._meta.pageCount <= res.data._meta.currentPage) {
@@ -77,15 +100,6 @@ export class RecordIndexComponent implements OnInit {
     });
   }
 
-  getDate(currentDate: string, prevDate?: string) {
-    currentDate = this.datePipe.transform(currentDate, 'yyyy-MM-dd');
-    prevDate = prevDate ? this.datePipe.transform(prevDate, 'yyyy-MM-dd') : '';
-    if (currentDate !== prevDate) {
-      return currentDate;
-    }
-    return '';
-  }
-
   loadSelect(url: string, key: string) {
     this.http.get(url).subscribe((res: any) => {
       if (res.code !== 0) {
@@ -93,32 +107,30 @@ export class RecordIndexComponent implements OnInit {
         return;
       }
       if (res.data) {
-        const init = { id: 0, name: '全部', value: false };
         if (key === 'tags') {
-          this.selectRawData[key] = res.data.items.map((item: any) => ({ id: item.name, name: item.name, value: false }));
+          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.name, name: item.name, value: false }));
         } else if (['transaction_type', 'source'].includes(key)) {
-          this.selectRawData[key] = res.data.map((item: any) => ({ id: item.type, name: item.name, value: false }));
+          this.selectData[key] = res.data.map((item: any) => ({ id: item.type, name: item.name, value: false }));
         } else {
-          this.selectRawData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name, value: false }));
+          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name, value: false }));
         }
-        this.selectData[key] = [init, ...this.selectRawData[key]];
         this.cdr.detectChanges();
       }
     });
   }
 
-  changeSelect(status: boolean, idx: number, key: string): void {
-    if (idx === 0) {
-      this.selectData[key].map((i: any) => (i.value = status));
-    } else {
-      this.selectData[key][idx].value = status;
-    }
-    this.q[key] = this.selectData[key]
-      .filter((i: any) => i.value === true)
-      .map((i: any) => i.id)
-      .toString();
-    this.getData();
-  }
+  // changeSelect(status: boolean, idx: number, key: string): void {
+  //   if (idx === 0) {
+  //     this.selectData[key].map((i: any) => (i.value = status));
+  //   } else {
+  //     this.selectData[key][idx].value = status;
+  //   }
+  //   this.q[key] = this.selectData[key]
+  //     .filter((i: any) => i.value === true)
+  //     .map((i: any) => i.id)
+  //     .toString();
+  //   this.getData();
+  // }
 
   disabled(record: any): boolean {
     if (record.transaction.id) {
@@ -128,12 +140,10 @@ export class RecordIndexComponent implements OnInit {
   }
 
   form(record: { id?: number; transaction?: {} } = {}): void {
-    this.modal
-      .create(RecordFormComponent, { record: record.transaction, selectRawData: this.selectRawData }, { size: 'md' })
-      .subscribe((res) => {
-        this.getData();
-        this.cdr.detectChanges();
-      });
+    this.modal.create(RecordFormComponent, { record: record.transaction, selectData: this.selectData }, { size: 'md' }).subscribe((res) => {
+      this.getData();
+      this.cdr.detectChanges();
+    });
   }
 
   recurrenceForm(record: { transaction_id?: number } = {}): void {
@@ -157,5 +167,16 @@ export class RecordIndexComponent implements OnInit {
     if (created) {
       this.getData();
     }
+  }
+
+  search(): void {
+    this.q = { page: 1 };
+    this.getData();
+  }
+
+  reset(): void {
+    this.date = [];
+    this.q = { page: 1 };
+    this.getData();
   }
 }

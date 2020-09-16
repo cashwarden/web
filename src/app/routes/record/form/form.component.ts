@@ -12,7 +12,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 })
 export class RecordFormComponent implements OnInit {
   record: any = {};
-  selectRawData: any = {};
+  selectData: any = {};
 
   form = {
     type: 'expense',
@@ -59,7 +59,7 @@ export class RecordFormComponent implements OnInit {
         this.msgSrv.warning(res.message);
         return;
       }
-      this.selectRawData.category_id = res.data.items.map((item: any) => ({ id: item.id, name: item.name, value: false }));
+      this.selectData.category_id = res.data.items.map((item: any) => ({ id: item.id, name: item.name, value: false }));
       this.cdr.detectChanges();
     });
   }

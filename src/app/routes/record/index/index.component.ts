@@ -69,11 +69,15 @@ export class RecordIndexComponent implements OnInit {
   getData(): void {
     this.loading = true;
     this.loadingMore = true;
-    // if (this.date) {
-    //   this.q.date = this.date.map((item: any) => this.datePipe.transform(item, 'yyyy-MM-dd')).join('~');
-    // }
+    if (this.date) {
+      this.q.date = this.date.map((item: any) => this.datePipe.transform(item, 'yyyy-MM-dd')).join('~');
+    }
+    const q = {};
+    Object.entries(this.q)
+      .filter(([key, value]) => value !== null)
+      .map(([key, value]) => (q[key] = value));
 
-    this.http.get('/api/records', this.q).subscribe((res) => {
+    this.http.get('/api/records', q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
       if (res.data._meta.pageCount <= res.data._meta.currentPage) {
@@ -166,20 +170,13 @@ export class RecordIndexComponent implements OnInit {
   }
 
   search(): void {
-    console.log(this.q);
+    this.q = { page: 1 };
     this.getData();
   }
 
   reset(): void {
-    // this.q.date = '';
-    // this.q.keyword = null;
-    // this.q.account_id = '';
-    // this.q.category_id = '';
-    // this.q.transaction_type = '';
-    // this.q.source = '';
+    this.date = [];
     this.q = { page: 1 };
     this.getData();
-    // setTimeout(() => this.getData());
-    // console.log(this.q);
   }
 }

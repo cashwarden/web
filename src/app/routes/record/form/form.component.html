@@ -12,17 +12,17 @@
   </se>
   <se label="支付帐户" *ngIf="['expense', 'transfer'].includes(form.type)">
     <nz-select [(ngModel)]="form.from_account_id" name="from_account_id" required>
-      <nz-option [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectRawData['account_id']"></nz-option>
+      <nz-option [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectData['account_id']"></nz-option>
     </nz-select>
   </se>
   <se label="收款帐户" *ngIf="['income', 'transfer'].includes(form.type)">
     <nz-select [(ngModel)]="form.to_account_id" name="to_account_id" required>
-      <nz-option [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectRawData['account_id']"></nz-option>
+      <nz-option [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectData['account_id']"></nz-option>
     </nz-select>
   </se>
   <se label="类别">
     <nz-select [(ngModel)]="form.category_id" name="category_id" required>
-      <nz-option [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectRawData['category_id']"></nz-option>
+      <nz-option [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectData['category_id']"></nz-option>
     </nz-select>
   </se>
   <se label="金额">
@@ -40,7 +40,7 @@
   </se>
   <se label="标签">
     <nz-select [(ngModel)]="form.tags" nzMode="tags" name="tags">
-      <nz-option *ngFor="let option of selectRawData['tags']" [nzLabel]="option.id" [nzValue]="option.name"></nz-option>
+      <nz-option *ngFor="let option of selectData['tags']" [nzLabel]="option.id" [nzValue]="option.name"></nz-option>
     </nz-select>
   </se>
   <se label="备注" col="1">

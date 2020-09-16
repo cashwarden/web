@@ -13,15 +13,7 @@ import { RecordFormComponent } from './../form/form.component';
 })
 export class RecordIndexComponent implements OnInit {
   // q:{page:number} = {}
-  q: {
-    page: number;
-    keyword?: string;
-    category_id?: string;
-    account_id?: string;
-    transaction_type?: string;
-    source?: string;
-    date?: string;
-  } = {
+  q: any = {
     page: 1,
     keyword: '',
     category_id: '',
@@ -76,8 +68,9 @@ export class RecordIndexComponent implements OnInit {
     Object.entries(this.q)
       .filter(([, value]) => value !== null)
       .map(([key, value]) => (q[key] = value));
+    this.q = q;
 
-    this.http.get('/api/records', q).subscribe((res) => {
+    this.http.get('/api/records', this.q).subscribe((res) => {
       this.list = res.data.items;
       this.pagination = res.data._meta;
       if (res.data._meta.pageCount <= res.data._meta.currentPage) {
@@ -170,7 +163,7 @@ export class RecordIndexComponent implements OnInit {
   }
 
   search(): void {
-    this.q = { page: 1 };
+    this.q.page = 1;
     this.getData();
   }
 

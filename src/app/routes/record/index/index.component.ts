@@ -74,7 +74,7 @@ export class RecordIndexComponent implements OnInit {
     }
     const q = {};
     Object.entries(this.q)
-      .filter(([key, value]) => value !== null)
+      .filter(([, value]) => value !== null)
       .map(([key, value]) => (q[key] = value));
 
     this.http.get('/api/records', q).subscribe((res) => {

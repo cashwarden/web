@@ -112,19 +112,6 @@ export class RecordIndexComponent implements OnInit {
     });
   }
 
-  // changeSelect(status: boolean, idx: number, key: string): void {
-  //   if (idx === 0) {
-  //     this.selectData[key].map((i: any) => (i.value = status));
-  //   } else {
-  //     this.selectData[key][idx].value = status;
-  //   }
-  //   this.q[key] = this.selectData[key]
-  //     .filter((i: any) => i.value === true)
-  //     .map((i: any) => i.id)
-  //     .toString();
-  //   this.getData();
-  // }
-
   disabled(record: any): boolean {
     if (record.transaction.id) {
       return true;
@@ -134,6 +121,7 @@ export class RecordIndexComponent implements OnInit {
 
   form(record: { id?: number; transaction?: {} } = {}): void {
     this.modal.create(RecordFormComponent, { record: record.transaction, selectData: this.selectData }, { size: 'md' }).subscribe((res) => {
+      this.q.page = 1;
       this.getData();
       this.cdr.detectChanges();
     });
@@ -151,6 +139,7 @@ export class RecordIndexComponent implements OnInit {
         this.msg.warning(res?.message);
         return;
       }
+      this.q.page = 1;
       this.getData();
       this.msg.success('删除成功');
     });

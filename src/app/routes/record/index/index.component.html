@@ -34,57 +34,6 @@
     >
   </form>
 
-  <!-- <form nz-form [nzLayout]="'inline'" (ngSubmit)="getData()" class="search__form">
-    <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 24, xxl: 24 }">
-      <div nz-col nzMd="6" nzSm="24">
-        <nz-form-item>
-          <nz-form-label nzFor="keyword">关键词</nz-form-label>
-          <nz-form-control>
-            <input nz-input [(ngModel)]="q.keyword" name="no" placeholder="搜索描述/备注/标签" id="no" />
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-      <div nz-col nzMd="4" nzSm="24" *ngFor="let selectLabel of selectLabels">
-        <nz-form-item>
-          <nz-form-label [nzFor]="selectLabel.key">{{ selectLabel.label }}</nz-form-label>
-          <nz-form-control>
-            <nz-select [(ngModel)]="q[selectLabel.key]" [name]="selectLabel.key" [nzPlaceHolder]="'全部'" [nzShowSearch]="true">
-              <nz-option *ngFor="let i of selectData[selectLabel.key]" [nzLabel]="i.name" [nzValue]="i.id"></nz-option>
-            </nz-select>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-
-      <div nz-col nzMd="6" nzSm="24">
-        <nz-form-item>
-          <nz-form-label nzFor="date">日期</nz-form-label>
-          <nz-form-control>
-            <nz-range-picker [(ngModel)]="q.date"></nz-range-picker>
-          </nz-form-control>
-        </nz-form-item>
-      </div>
-
-      <div nz-col>
-        <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading">查询</button>
-        <button nz-button type="reset" (click)="reset()" class="mx-sm">重置</button>
-      </div>
-    </div>
-  </form> -->
-
-  <!-- <form nz-form se-container="1" size="compact" gutter="32" [labelWidth]="null">
-    <se *ngFor="let selectLabel of selectLabels" [label]="selectLabel.label" line>
-      <tag-select>
-        <nz-tag
-          *ngFor="let i of selectData[selectLabel.key]; let idx = index"
-          nzMode="checkable"
-          [nzChecked]="i.value"
-          (nzCheckedChange)="changeSelect($event, idx, selectLabel.key)"
-        >
-          {{ i.name }}
-        </nz-tag>
-      </tag-select>
-    </se>
-  </form> -->
   <nz-divider></nz-divider>
   <nz-list [nzLoading]="loading">
     <ng-container *ngFor="let item of list">

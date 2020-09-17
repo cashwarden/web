@@ -36,6 +36,8 @@ export class RecordFormComponent implements OnInit {
       this.form = this.record;
       this.form.date = toDate(this.record.date);
     }
+    console.log(this.selectData);
+
     this.changeCategroy(this.form.type);
   }
 
@@ -60,7 +62,7 @@ export class RecordFormComponent implements OnInit {
         this.msgSrv.warning(res.message);
         return;
       }
-      this.selectData.category_id = res.data.items.map((item: any) => ({ id: item.id, name: item.name, value: false }));
+      this.selectData.category_id = res.data.items.map((item: any) => ({ id: item.id, name: item.name, icon: item.icon_name }));
       this.cdr.detectChanges();
     });
   }

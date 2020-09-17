@@ -101,11 +101,13 @@ export class RecordIndexComponent implements OnInit {
       }
       if (res.data) {
         if (key === 'tags') {
-          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.name, name: item.name, value: false }));
+          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.name, name: item.name }));
         } else if (['transaction_type', 'source'].includes(key)) {
-          this.selectData[key] = res.data.map((item: any) => ({ id: item.type, name: item.name, value: false }));
+          this.selectData[key] = res.data.map((item: any) => ({ id: item.type, name: item.name }));
+        } else if (['account_id', 'category_id'].includes(key)) {
+          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name, icon: item.icon_name }));
         } else {
-          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name, value: false }));
+          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name }));
         }
         this.cdr.detectChanges();
       }

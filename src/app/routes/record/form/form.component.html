@@ -46,15 +46,11 @@
   <se label="备注" col="1">
     <textarea [(ngModel)]="form.remark" name="remark" nz-input rows="2"></textarea>
   </se>
+  <se label="不计入统计" col="1" *ngIf="form.type !== 'transfer'">
+    <nz-switch [(ngModel)]="form.exclude_from_stats" name="exclude_from_stats"></nz-switch>
+  </se>
   <se col="1">
     <button nz-button type="button" (click)="close()">关闭</button>
     <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>
   </se>
 </form>
-
-<!-- <sf #sf mode="edit" [schema]="schema" [formData]="record" button="none">
-  <div class="modal-footer">
-    <button nz-button type="button" (click)="close()">关闭</button>
-    <button nz-button type="submit" [nzType]="'primary'" (click)="save(sf.value)" [disabled]="!sf.valid">保存</button>
-  </div>
-</sf> -->

@@ -25,6 +25,7 @@ export class RecordFormComponent implements OnInit {
     remark: '',
     date: new Date(),
     reimbursement_status: 'none',
+    exclude_from_stats: false,
     status: 'done',
   };
 

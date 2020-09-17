@@ -84,6 +84,7 @@
               {{ record.direction === 'expense' ? '-' : '' }}
               {{ record.currency_code }}
               {{ record.currency_amount }}
+              <nz-tag nzColor="warning" *ngIf="record.exclude_from_stats" class="text-xs">不计入</nz-tag>
             </p>
           </div>
         </ng-template>

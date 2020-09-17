@@ -4,13 +4,20 @@
       <div nz-col>
         <sf mode="search" [schema]="searchSchema" (formSubmit)="submit($event)" (formReset)="st.reset($event)"></sf>
       </div>
-      <!-- <div nz-col>
+      <div nz-col>
         <button (click)="form()" nz-button nzType="primary">新建</button>
-      </div> -->
+      </div>
     </div>
   </nz-card>
 </div>
 
 <nz-card>
-  <st #st [data]="list" [columns]="columns"></st>
+  <st #st [data]="list" [columns]="columns">
+    <ng-template st-row="customTitle" type="title" let-c>
+      {{ c.title.text }}
+    </ng-template>
+    <ng-template st-row="custom" let-item let-index="index">
+      <i nz-icon nzIconfont="icon-{{ item.icon_name }}" class="icon-sm"></i> {{ item.name }}
+    </ng-template>
+  </st>
 </nz-card>

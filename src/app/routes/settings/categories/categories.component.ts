@@ -53,7 +53,7 @@ export class SettingsCategoriesComponent implements OnInit {
     },
   };
   columns: STColumn[] = [
-    { title: '名称', index: 'name' },
+    { title: '名称', renderTitle: 'customTitle', render: 'custom' },
     { title: '交易类型', index: 'transaction_type_text' },
     { title: '排序', index: 'sort' },
     { title: '时间', type: 'date', index: 'updated_at' },

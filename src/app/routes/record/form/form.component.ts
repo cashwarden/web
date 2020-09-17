@@ -36,7 +36,6 @@ export class RecordFormComponent implements OnInit {
       this.form = this.record;
       this.form.date = toDate(this.record.date);
     }
-    console.log(this.selectData);
 
     this.changeCategroy(this.form.type);
   }

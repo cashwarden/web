@@ -15,12 +15,7 @@ export class RecordIndexComponent implements OnInit {
   // q:{page:number} = {}
   q: any = {
     page: 1,
-    keyword: '',
-    category_id: '',
-    account_id: '',
-    transaction_type: '',
-    source: '',
-    date: '',
+    pageSize: 50,
   };
   date: [];
 
@@ -160,7 +155,10 @@ export class RecordIndexComponent implements OnInit {
 
   reset(): void {
     this.date = [];
-    this.q = { page: 1 };
+    this.q = {
+      page: 1,
+      pageSize: 50,
+    };
     this.getData();
   }
 }

@@ -31,7 +31,7 @@
               </ng-template>
               <ng-template #nzAvatar>
                 <div class="record-icon">
-                  <i nz-icon nzIconfont="icon-{{ record.category?.icon_name }}"></i>
+                  <i nz-icon nzIconfont="icon-{{ record.category?.icon_name }}" class="icon-sm"></i>
                 </div>
               </ng-template>
             </nz-list-item-meta>
@@ -99,7 +99,7 @@
           <nz-list-item-meta [nzAvatar]="nzAvatar">
             <ng-template #nzAvatar>
               <div class="record-icon">
-                <i nz-icon nzIconfont="icon-{{ item.type }}"></i>
+                <i nz-icon nzIconfont="icon-{{ item.type }}" class="icon-sm"></i>
               </div>
             </ng-template>
             <nz-list-item-meta-title>

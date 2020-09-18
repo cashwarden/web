@@ -17,6 +17,7 @@ export class SettingsTagsComponent implements OnInit {
   list: any[] = [];
   q = {
     page: 1,
+    pageSize: 100,
     name: '',
   };
 
@@ -94,7 +95,9 @@ export class SettingsTagsComponent implements OnInit {
   }
 
   submit(value: any): void {
-    this.q = value;
-    this.getData();
+    if (value.name) {
+      this.q.name = value.name;
+      this.getData();
+    }
   }
 }

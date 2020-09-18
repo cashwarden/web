@@ -69,9 +69,7 @@
         <p (click)="form(item)">{{ item.name }}</p>
       </ng-template>
       <ng-template #avatar>
-        <div class="account-icon" (click)="form(item)">
-          <i nz-icon nzIconfont="icon-{{ item.type }}"></i>
-        </div>
+        <i nz-icon nzIconfont="icon-{{ item.type }}" class="icon-md" (click)="form(item)"></i>
       </ng-template>
       <ng-template #action>
         <span class="pl-sm">

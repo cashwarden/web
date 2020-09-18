@@ -16,6 +16,7 @@ export class SettingsRulesComponent implements OnInit {
   selectRawData: any = {};
   q = {
     page: 1,
+    pageSize: 100,
     name: '',
   };
 
@@ -153,7 +154,13 @@ export class SettingsRulesComponent implements OnInit {
   }
 
   submit(value: any): void {
-    this.q.name = value.name;
+    if (value.name) {
+      this.q.name = value.name;
+      this.getData();
+    }
+  }
+  reset(): void {
+    this.q.name = '';
     this.getData();
   }
 }

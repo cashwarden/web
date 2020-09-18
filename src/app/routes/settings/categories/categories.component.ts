@@ -18,6 +18,7 @@ export class SettingsCategoriesComponent implements OnInit {
   list: any[] = [];
   q = {
     page: 1,
+    pageSize: 100,
     name: '',
     transaction_type: '',
   };

@@ -2,7 +2,7 @@
   <nz-card>
     <div nz-row [nzGutter]="{ xs: 6, sm: 16, md: 24, lg: 32 }">
       <div nz-col>
-        <sf mode="search" [schema]="searchSchema" (formSubmit)="submit($event)" (formReset)="st.reset($event)"></sf>
+        <sf mode="search" [schema]="searchSchema" (formSubmit)="submit($event)" (formReset)="reset()"></sf>
       </div>
       <div nz-col>
         <button (click)="form()" nz-button nzType="primary">新建</button>

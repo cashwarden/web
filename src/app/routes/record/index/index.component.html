@@ -23,7 +23,7 @@
     <se *ngFor="let selectLabel of selectLabels" [label]="selectLabel.label" col="4">
       <nz-select [(ngModel)]="q[selectLabel.key]" [name]="selectLabel.key" [nzPlaceHolder]="'全部'" nzShowSearch nzAllowClear>
         <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectData[selectLabel.key]">
-          <i nz-icon nzIconfont="icon-{{ i.icon }}" *ngIf="i.icon" class="select-icon"></i>{{ i.name }}
+          <i nz-icon nzIconfont="icon-{{ i.icon }}" *ngIf="i.icon"></i>{{ i.name }}
         </nz-option>
       </nz-select>
     </se>

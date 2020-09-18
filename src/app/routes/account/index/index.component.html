@@ -24,6 +24,27 @@
 </div>
 
 <nz-card>
+  <form nz-form #f="ngForm" se-container size="compact" (ngSubmit)="search()" gutter="24" [labelWidth]="null">
+    <se col="6">
+      <input nz-input [(ngModel)]="q.name" name="name" placeholder="搜索账户名称" />
+    </se>
+    <se col="6">
+      <nz-select [(ngModel)]="q.type" name="type" [nzPlaceHolder]="'全部类型'" nzShowSearch nzAllowClear>
+        <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.type" *ngFor="let i of accountTypes">
+          <i nz-icon nzIconfont="icon-{{ i.type }}"></i> {{ i.name }}
+        </nz-option>
+      </nz-select>
+    </se>
+    <se col="6">
+      <nz-select [(ngModel)]="q.sort" name="sort" [nzPlaceHolder]="'默认排序'" nzShowSearch nzAllowClear>
+        <nz-option *ngFor="let i of accountSorts" [nzLabel]="i.label" [nzValue]="i.value"></nz-option>
+      </nz-select>
+    </se>
+
+    <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading">查询</button>
+    <button nz-button type="reset" (click)="reset()" class="mx-sm">重置</button>
+  </form>
+  <!-- 
   <form nz-form [nzLayout]="'inline'" (ngSubmit)="submit()" class="search__form">
     <div nz-row [nzGutter]="{ xs: 8, sm: 8, md: 8, lg: 24, xl: 48, xxl: 48 }">
       <div nz-col nzMd="8" nzSm="24">
@@ -49,20 +70,14 @@
         <button nz-button type="reset" (click)="reset()" class="mx-sm">重置</button>
       </div>
     </div>
-  </form>
+  </form> -->
   <button nz-button (click)="form()" [nzType]="'primary'">
     <i nz-icon nzType="plus"></i>
     <span>新建</span>
   </button>
 </nz-card>
 
-<nz-list
-  [nzDataSource]="list"
-  [nzLoading]="loading"
-  [nzRenderItem]="item"
-  [nzPagination]="pagination"
-  [nzGrid]="{ gutter: 24, lg: 8, md: 12, sm: 24, xs: 24 }"
->
+<nz-list [nzDataSource]="list" [nzLoading]="loading" [nzRenderItem]="item" [nzGrid]="{ gutter: 24, lg: 8, md: 12, sm: 24, xs: 24 }">
   <ng-template #item let-item>
     <g2-card [title]="title" [bordered]="true" [total]="item.balance | _currency" [footer]="footer" [avatar]="avatar" [action]="action">
       <ng-template #title>
@@ -91,8 +106,5 @@
         <nz-tag *ngIf="item.default">默认账户</nz-tag>
       </ng-template>
     </g2-card>
-  </ng-template>
-  <ng-template #pagination>
-    <nz-pagination [nzTotal]="pagination.pageCount" [nzPageSize]="pagination.perPage" (nzPageIndexChange)="getData()"></nz-pagination>
   </ng-template>
 </nz-list>

@@ -11,17 +11,18 @@ import { AccountFormComponent } from './../form/form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountIndexComponent implements OnInit {
-  q = {
+  q: any = {
     page: 1,
-    name: '',
-    sort: '',
-    type: '',
+    pageSize: 50,
   };
+  accountSorts = [
+    { value: '-balance_cent', label: '余额倒序' },
+    { value: 'balance_cent', label: '余额正序' },
+  ];
   accountTypes: any[] = [];
   list: Array<{ id: number; name: string; type: string; color: string; balance: string }> = [];
 
   loading = true;
-  pagination: {};
   overview: { count: number; net_asset: number; total_assets: number; liabilities: number };
 
   constructor(
@@ -40,9 +41,13 @@ export class AccountIndexComponent implements OnInit {
 
   getData(): void {
     this.loading = true;
+    const q = {};
+    Object.entries(this.q)
+      .filter(([, value]) => value !== null)
+      .map(([key, value]) => (q[key] = value));
+    this.q = q;
     this.http.get('/api/accounts', this.q).subscribe((res) => {
       this.list = res.data.items;
-      this.pagination = res.data._meta;
       this.loading = false;
       this.cdr.detectChanges();
     });
@@ -55,8 +60,7 @@ export class AccountIndexComponent implements OnInit {
         return;
       }
       if (res.data) {
-        const init = { type: '', name: '全部' };
-        this.accountTypes = [init, ...res.data];
+        this.accountTypes = res.data;
         this.cdr.detectChanges();
       }
     });
@@ -69,18 +73,14 @@ export class AccountIndexComponent implements OnInit {
     });
   }
 
-  submit(): void {
-    console.log(this.q);
-
+  search(): void {
     this.getData();
   }
 
   reset(): void {
     this.q = {
       page: 1,
-      name: '',
-      sort: '',
-      type: '',
+      pageSize: 50,
     };
     this.getData();
   }

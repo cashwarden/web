@@ -1,81 +1,47 @@
 <p align="center">
-  <a href="https://ng-alain.com">
-    <img width="100" src="https://ng-alain.com/assets/img/logo-color.svg">
+  <a href="https://cashwarden.com">
+    <img width="100" src="https://cashwarden.com/assets/logo-color.svg">
   </a>
 </p>
 
-<h1 align="center">NG-ALAIN</h1>
+<h1 align="center">CashWarden</h1>
 
 <div align="center">
-  Out-of-box UI solution for enterprise applications, Let developers focus on business.
+  An open source asset management system
 
-  [![Build Status](https://dev.azure.com/ng-alain/ng-alain/_apis/build/status/ng-alain-CI?branchName=master)](https://dev.azure.com/ng-alain/ng-alain/_build/latest?definitionId=2&branchName=master)
-  [![Dependency Status](https://david-dm.org/ng-alain/ng-alain/status.svg?style=flat-square)](https://david-dm.org/ng-alain/ng-alain)
-  [![GitHub Release Date](https://img.shields.io/github/release-date/ng-alain/ng-alain.svg?style=flat-square)](https://github.com/ng-alain/ng-alain/releases)
-  [![NPM version](https://img.shields.io/npm/v/ng-alain.svg?style=flat-square)](https://www.npmjs.com/package/ng-alain)
+  [![CI](https://github.com/cashwarden/web/workflows/Deploy%20CI/badge.svg)](https://github.com/cashwarden/web/actions)
+  [![GitHub Release Date](https://img.shields.io/github/release-date/cashwarden/web.svg?style=flat-square)](https://github.com/ cashwarden/web/releases)
   [![prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://prettier.io/)
-  [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/ng-alain/ng-alain/blob/master/LICENSE)
-  [![Gitter](https://img.shields.io/gitter/room/ng-alain/ng-alain.svg?style=flat-square)](https://gitter.im/ng-alain/ng-alain)
-  [![ng-zorro-vscode](https://img.shields.io/badge/ng--zorro-VSCODE-brightgreen.svg?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=cipchk.ng-zorro-vscode)
-  [![ng-alain-vscode](https://img.shields.io/badge/ng--alain-VSCODE-brightgreen.svg?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=cipchk.ng-alain-vscode)
+  [![GitHub](https://img.shields.io/github/license/cashwarden/web)](https://github.com/cashwarden/web/blob/master/LICENSE)
+  [![Telegram](https://img.shields.io/badge/telegram-cashwarden-green?logo=telegram&;style=flat)](https://t.me/cashwarden)
 
 </div>
 
 English | [简体中文](README-zh_CN.md)
 
-## Quickstart
+## Characteristics
 
-- [Getting Started](https://ng-alain.com/docs/getting-started)
++ Bookkeeping and QuickBooks
++ QuickBooks with Telegram Bot
++ Account management
++ Tags and classifications
++ Bookkeeping
 
-## Links
+## Use
 
-+ [Document](https://ng-alain.com) ([Surge Mirror](https://ng-alain-doc.surge.sh))
-+ [@delon Source](https://github.com/ng-alain/delon)
-+ [DEMO](https://ng-alain.surge.sh) ([国内镜像](https://ng-alain.gitee.io/))
+- [Introduction and user's guide](https://blog.forecho.com/hello-cashwarden.html)
 
-## Features
+## Development
 
-+ `ng-zorro-antd` based
-+ Responsive Layout
-+ I18n
-+ [@delon](https://github.com/ng-alain/delon)
-+ Lazy load Assets
-+ UI Router States
-+ Customize Theme
-+ Less preprocessor
-+ Well organized & commented code
-+ Simple upgrade
-+ Support Docker deploy
+- [Based on NG-ALAIN](https://ng-alain.com/)
+- [Based on NG-ZORRO](https://ng.ant.design/)
+- [Cashwarden Core API](https://github.com/cashwarden/core-api)
 
-## Architecture
+## App screenshots
 
-![Architecture](https://raw.githubusercontent.com/ng-alain/delon/master/_screenshot/architecture.png)
+![Dashboard](https://blog-1251237404.cos.ap-guangzhou.myqcloud.com/20200922LW1UYR.jpg)
+![Timed bookkeeping](https://blog-1251237404.cos.ap-guangzhou.myqcloud.com/202009224a6mYh.jpg)
+![Rule setting](https://blog-1251237404.cos.ap-guangzhou.myqcloud.com/20200922dSaFoD.jpg)
+![Record](https://blog-1251237404.cos.ap-guangzhou.myqcloud.com/20200922P5FGaQ.jpg)
+![Account](https://blog-1251237404.cos.ap-guangzhou.myqcloud.com/202009228aZsEz.jpg)
 
-> [delon](https://github.com/ng-alain/delon) is a production-ready solution for admin business components packages, Built on the design principles developed by Ant Design.
-
-## App Shots
-
-![desktop](https://raw.githubusercontent.com/ng-alain/delon/master/_screenshot/desktop.png)
-![ipad](https://raw.githubusercontent.com/ng-alain/delon/master/_screenshot/ipad.png)
-![iphone](https://raw.githubusercontent.com/ng-alain/delon/master/_screenshot/iphone.png)
-
-## Donation
-
-ng-alain is an MIT-licensed open source project. In order to achieve better and sustainable development of the project, we expect to gain more backers. You can support us in any of the following ways:
-
-- [patreon](https://www.patreon.com/cipchk)
-- [opencollective](https://opencollective.com/ng-alain)
-- [paypal](https://www.paypal.me/cipchk)
-- [支付宝或微信](https://ng-alain.com/assets/donate.png)
-
-Or purchasing our [business theme](https://e.ng-alain.com/).
-
-## Backers
-
-Thank you to all our backers! 🙏
-
-<a href="https://opencollective.com/ng-alain#backers" target="_blank"><img src="https://opencollective.com/ng-alain/backers.svg?width=890"></a>
-
-### License
-
-The MIT License (see the [LICENSE](https://github.com/ng-alain/ng-alain/blob/master/LICENSE) file for the full text)

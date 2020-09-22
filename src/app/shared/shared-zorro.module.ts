@@ -30,6 +30,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 export const SHARED_ZORRO_MODULES = [
   NzFormModule,
@@ -64,4 +65,5 @@ export const SHARED_ZORRO_MODULES = [
   NzTagModule,
   NzDatePickerModule,
   NzTypographyModule,
+  NzUploadModule,
 ];

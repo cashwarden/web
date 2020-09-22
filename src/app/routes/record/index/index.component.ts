@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { RecurrenceFormComponent } from '../../recurrence/form/form.component';
+import { RecordImportComponent } from '../import/import.component';
 import { RecordFormComponent } from './../form/form.component';
 
 @Component({
@@ -118,6 +119,14 @@ export class RecordIndexComponent implements OnInit {
 
   form(record: { id?: number; transaction?: {} } = {}): void {
     this.modal.create(RecordFormComponent, { record: record.transaction, selectData: this.selectData }, { size: 'md' }).subscribe((res) => {
+      this.q.page = 1;
+      this.getData();
+      this.cdr.detectChanges();
+    });
+  }
+
+  import(): void {
+    this.modal.create(RecordImportComponent, {}, { size: 'md' }).subscribe((res) => {
       this.q.page = 1;
       this.getData();
       this.cdr.detectChanges();

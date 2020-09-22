@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <div class="modal-title">导入 CSV 文件</div>
+</div>
+<p>
+  <a down-file http-url="./assets/import-template.csv" file-name="CashWarden导入模版.csv">
+    下载模版文件
+  </a>
+</p>
+
+<nz-upload nzType="drag" nzAction="/api/transactions/upload" nzAccept=".csv" (nzChange)="handleChange($event)">
+  <p class="ant-upload-drag-icon">
+    <i nz-icon nzType="inbox"></i>
+  </p>
+  <p class="ant-upload-text">点击或拖动文件到此区域上传</p>
+  <p class="ant-upload-hint">
+    支持多次上传，每次上传的文件要么全部失败，要么全部成功导入数据。
+  </p>
+</nz-upload>

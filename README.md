@@ -10,7 +10,7 @@
   An open source asset management system
 
   [![CI](https://github.com/cashwarden/web/workflows/Deploy%20CI/badge.svg)](https://github.com/cashwarden/web/actions)
-  [![GitHub Release Date](https://img.shields.io/github/release-date/cashwarden/web.svg?style=flat-square)](https://github.com/ cashwarden/web/releases)
+  [![GitHub Release Date](https://img.shields.io/github/release-date/cashwarden/web.svg?style=flat-square)](https://github.com/cashwarden/web/releases)
   [![prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://prettier.io/)
   [![GitHub](https://img.shields.io/github/license/cashwarden/web)](https://github.com/cashwarden/web/blob/master/LICENSE)
   [![Telegram](https://img.shields.io/badge/telegram-cashwarden-green?logo=telegram&;style=flat)](https://t.me/cashwarden)

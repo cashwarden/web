@@ -22,7 +22,7 @@
   </div>
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
     <nz-card nzTitle="消费趋势" [nzBordered]="false" class="mb-lg">
-      <g2-water-wave [title]="'累计结余'" [percent]="water.percent" [height]="161"></g2-water-wave>
+      <g2-water-wave [title]="'累计结余'" *ngIf="water" [percent]="water.percent" [height]="161"></g2-water-wave>
       <div class="rank">
         <ul class="rank-list" *ngIf="water">
           <li>

@@ -4,4 +4,34 @@
   .my-card-body {
     height: 250px;
   }
+  .rank {
+    float: right;
+    min-height: 200px;
+    padding-right: 50px;
+  }
+  .rank-list {
+    margin: 25px 0 0;
+    padding: 0;
+    list-style: none;
+    li {
+      .clearfix();
+
+      display: flex;
+      align-items: center;
+      margin-top: 16px;
+      span {
+        font-size: 14px;
+        line-height: 22px;
+      }
+      .title {
+        flex: 1;
+        margin-right: 8px;
+        padding-right: 10px;
+        overflow: hidden;
+        font-weight: bold;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
 }

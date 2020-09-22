@@ -13,9 +13,6 @@ export class RecordImportComponent {
 
   handleChange({ file, fileList }: NzUploadChangeParam): void {
     const status = file.status;
-    if (status !== 'uploading') {
-      console.log(file, fileList);
-    }
     if (status === 'done') {
       if (file.response.code === 0) {
         if (file.response.data.fail === 0) {

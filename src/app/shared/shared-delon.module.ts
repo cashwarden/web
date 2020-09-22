@@ -10,6 +10,7 @@ import { SidebarNavModule } from '@delon/abc/sidebar-nav';
 import { STModule } from '@delon/abc/st';
 import { SVModule } from '@delon/abc/sv';
 import { TagSelectModule } from '@delon/abc/tag-select';
+import { TrendModule } from '@delon/chart/trend';
 
 export const SHARED_DELON_MODULES = [
   PageHeaderModule,
@@ -23,5 +24,6 @@ export const SHARED_DELON_MODULES = [
   SVModule,
   TagSelectModule,
   DownFileModule,
+  TrendModule,
   // ReuseTabModule,
 ];

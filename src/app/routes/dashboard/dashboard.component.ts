@@ -25,7 +25,8 @@ export class DashboardComponent implements OnInit {
   recordsAnalysisData: G2BarData[];
   recordsAnalysisLoading = true;
 
-  recordsOverview: { overview: {}; key: string; text: string };
+  recordsOverview: Array<{ overview: { surplus: number; expense: number; income: number }; key: string; text: string }>;
+  water: { overview: { surplus: number; expense: number; income: number }; key: string; text: string; percent?: string };
   accountsOverview: { percent: number; color: string };
 
   constructor(private http: _HttpClient, private cdr: ChangeDetectorRef) {}
@@ -76,9 +77,12 @@ export class DashboardComponent implements OnInit {
 
   getOverview(): void {
     zip(this.http.get('/api/accounts/overview'), this.http.get('/api/records/overview')).subscribe(([accounts, records]: [any, any]) => {
-      this.recordsOverview = records.data;
       const percent = (accounts.data.net_asset <= 0 ? 0 : accounts.data.total_assets / accounts.data.net_asset) * 100;
-      this.accountsOverview = { percent, color: percent > 50 ? '#2f9cff' : '#f50' };
+      this.accountsOverview = { percent: +percent.toFixed(2), color: percent > 50 ? '#2f9cff' : '#f50' };
+      this.recordsOverview = records.data;
+      this.water = [...this.recordsOverview].pop();
+      this.recordsOverview.pop();
+      this.water.percent = ((this.water.overview.surplus / this.water.overview.income) * 100).toFixed(2);
       // this.accountsOverview.percent = accounts.data.total_assets / accounts.data.net_asset;
       this.cdr.detectChanges();
     });
@@ -90,7 +94,6 @@ export class DashboardComponent implements OnInit {
       if (data) {
         this.tags = res.data.items.map((item: any) => ({ value: item.count, name: item.name }));
       }
-      console.log(this.tags);
       this.cdr.detectChanges();
     });
   }

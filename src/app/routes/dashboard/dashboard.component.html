@@ -1,6 +1,6 @@
 <div nz-row [nzGutter]="24" class="pt-lg">
   <ng-template ngFor let-item [ngForOf]="recordsOverview">
-    <div nz-col nzXs="24" nzSm="10" nzMd="10" nzLg="4">
+    <div nz-col nzXs="24" nzSm="12" nzMd="" nzLg="6">
       <g2-card [title]="item.text" [bordered]="true" [total]="'¥ ' + item.overview.surplus" contentHeight="46" [action]="action">
         <ng-template #action>
           <i nz-tooltip [nzTooltipTitle]="item.text + '结余'" nz-icon nzType="info-circle"></i>
@@ -14,9 +14,34 @@
   </ng-template>
 </div>
 
-<nz-card [nzLoading]="recordsAnalysisLoading" nzTitle="消费趋势" [nzBordered]="false" class="mb-0">
-  <g2-bar height="200" [title]="'日支出曲线'" *ngIf="recordsAnalysisData" [data]="recordsAnalysisData"></g2-bar>
-</nz-card>
+<div nz-row [nzGutter]="24">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
+    <nz-card [nzLoading]="recordsAnalysisLoading" nzTitle="累计资产" [nzBordered]="false" class="mb-0">
+      <g2-bar height="200" [title]="'日支出曲线'" *ngIf="recordsAnalysisData" [data]="recordsAnalysisData"></g2-bar>
+    </nz-card>
+  </div>
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
+    <nz-card nzTitle="消费趋势" [nzBordered]="false" class="mb-lg">
+      <g2-water-wave [title]="'累计结余'" [percent]="water.percent" [height]="161"></g2-water-wave>
+      <div class="rank">
+        <ul class="rank-list" *ngIf="water">
+          <li>
+            <span class="title">累计结余</span>
+            <span class="value">{{ water.overview.surplus }}</span>
+          </li>
+          <li>
+            <span class="title">累计支出</span>
+            <span class="value">{{ water.overview.expense }}</span>
+          </li>
+          <li>
+            <span class="title">累计收入</span>
+            <span class="value">{{ water.overview.income }}</span>
+          </li>
+        </ul>
+      </div>
+    </nz-card>
+  </div>
+</div>
 
 <div nz-row [nzGutter]="24">
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">

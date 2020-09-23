@@ -15,27 +15,27 @@
 </div>
 
 <div nz-row [nzGutter]="24">
-  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
-    <nz-card [nzLoading]="recordsAnalysisLoading" nzTitle="累计资产" [nzBordered]="false" class="mb-0">
-      <g2-bar height="200" [title]="'日支出曲线'" *ngIf="recordsAnalysisData" [data]="recordsAnalysisData"></g2-bar>
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="18">
+    <nz-card [nzLoading]="recordsAnalysisLoading" nzTitle="日支出曲线" [nzBordered]="false" class="mb-0">
+      <div starkG2plotArea *ngIf="recordsAnalysisData" [options]="recordsAnalysisData"></div>
     </nz-card>
   </div>
-  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
-    <nz-card nzTitle="消费趋势" [nzBordered]="false" class="mb-lg">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="6">
+    <nz-card nzTitle="累计资产" [nzBordered]="false" class="mb-lg" [nzBodyStyle]="{ 'text-align': 'center' }">
       <g2-water-wave [title]="'累计结余'" *ngIf="water" [percent]="water.percent" [height]="161"></g2-water-wave>
       <div class="rank">
         <ul class="rank-list" *ngIf="water">
           <li>
             <span class="title">累计结余</span>
-            <span class="value">{{ water.overview.surplus }}</span>
+            <span class="value">{{ water.overview.surplus | _currency }}</span>
           </li>
           <li>
             <span class="title">累计支出</span>
-            <span class="value">{{ water.overview.expense }}</span>
+            <span class="value">{{ water.overview.expense | _currency }}</span>
           </li>
           <li>
             <span class="title">累计收入</span>
-            <span class="value">{{ water.overview.income }}</span>
+            <span class="value">{{ water.overview.income | _currency }}</span>
           </li>
         </ul>
       </div>
@@ -45,12 +45,11 @@
 
 <div nz-row [nzGutter]="24">
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">
-    <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="最近6笔支出" class="mb-0">
+    <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="最近5笔支出" class="mb-0">
       <nz-list>
         <ng-container *ngFor="let item of lastRecords">
-          {{ item.date }} / 支出：{{ item.out }} / 收入：{{ item.in }}
           <nz-list-item *ngFor="let record of item.records" [nzContent]="nzContent">
-            <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar">
+            <nz-list-item-meta [nzTitle]="nzTitle" [nzAvatar]="nzAvatar" [nzDescription]="nzDescription">
               <ng-template #nzTitle>
                 <a>{{ record?.category?.name }}</a>
               </ng-template>
@@ -58,6 +57,9 @@
                 <div class="record-icon">
                   <i nz-icon nzIconfont="icon-{{ record.category?.icon_name }}" class="icon-sm"></i>
                 </div>
+              </ng-template>
+              <ng-template #nzDescription>
+                {{ record.date | _date }}
               </ng-template>
             </nz-list-item-meta>
             <ng-template #nzContent>
@@ -81,18 +83,8 @@
   </div>
 
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">
-    <nz-card [nzLoading]="loading" nzTitle="本月支出分类" [nzBordered]="false" style="min-height: 500.5px;">
-      <g2-pie
-        *ngIf="categoriesData"
-        [data]="categoriesData"
-        [hasLegend]="true"
-        subTitle="总支出"
-        [height]="248"
-        [lineWidth]="4"
-        [total]="categoriesTotal"
-        [valueFormat]="handlePieValueFormat"
-      >
-      </g2-pie>
+    <nz-card [nzLoading]="loading" nzTitle="本月支出分类" [nzBordered]="false" style="height: 469px;">
+      <div starkG2plotDonut *ngIf="categoriesOptions" [options]="categoriesOptions" style="width: 500px;"></div>
     </nz-card>
   </div>
 </div>

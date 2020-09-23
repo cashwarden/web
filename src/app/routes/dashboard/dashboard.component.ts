@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { G2BarClickItem, G2BarData } from '@delon/chart/bar';
-import { G2PieClickItem, G2PieData } from '@delon/chart/pie';
-import { G2TagCloudClickItem, G2TagCloudData } from '@delon/chart/tag-cloud';
+import { G2PieData } from '@delon/chart/pie';
+import { G2TagCloudData } from '@delon/chart/tag-cloud';
 import { _HttpClient } from '@delon/theme';
 import { yuan } from '@shared';
 import { zip } from 'rxjs';
@@ -19,16 +18,14 @@ export class DashboardComponent implements OnInit {
   data: any = {};
   tags: G2TagCloudData[];
 
-  categoriesData: G2PieData[];
-  categoriesTotal = 0;
+  categoriesOptions: any;
 
-  recordsAnalysisData: G2BarData[];
+  recordsAnalysisData: any;
   recordsAnalysisLoading = true;
 
   recordsOverview: Array<{ overview: { surplus: number; expense: number; income: number }; key: string; text: string }>;
   water: { overview: { surplus: number; expense: number; income: number }; key: string; text: string; percent?: string };
   accountsOverview: { percent: number; color: string };
-
   constructor(private http: _HttpClient, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
@@ -49,7 +46,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getLastRecords() {
-    this.http.get('/api/records', { pageSize: 6, transaction_type: 'expense' }).subscribe((res) => {
+    this.http.get('/api/records', { pageSize: 5, transaction_type: 'expense' }).subscribe((res) => {
       this.lastRecords = res.data.items;
       this.loading = false;
       this.cdr.detectChanges();
@@ -58,7 +55,28 @@ export class DashboardComponent implements OnInit {
 
   getRecordAnalysisData() {
     this.http.get('/api/records/analysis').subscribe((res) => {
-      this.recordsAnalysisData = res.data.map((item: any) => ({ x: item.x, y: item.y, color: '#f50' }));
+      this.recordsAnalysisData = {
+        data: res.data,
+        xField: 'x',
+        yField: 'y',
+        meta: {
+          x: {
+            alias: '日期',
+          },
+          y: {
+            alias: '支出金额',
+          },
+        },
+        interactions: [
+          {
+            type: 'slider',
+            cfg: {
+              start: 0,
+              end: 1,
+            },
+          },
+        ],
+      };
       this.recordsAnalysisLoading = false;
       this.cdr.detectChanges();
     });
@@ -66,10 +84,13 @@ export class DashboardComponent implements OnInit {
 
   getCategoryiesData() {
     this.http.get('/api/categories/analysis').subscribe((res) => {
-      this.categoriesData = res.data.filter((i: any) => i.y > 0);
-      if (this.categoriesData) {
-        this.categoriesTotal = this.categoriesData.reduce((pre, now) => Math.round((now.y + pre) * 100) / 100, 0);
-      }
+      this.categoriesOptions = {
+        forceFit: true,
+        radius: 0.8,
+        data: res.data.filter((i: any) => i.y > 0),
+        angleField: 'y',
+        colorField: 'x',
+      };
       this.loading = false;
       this.cdr.detectChanges();
     });

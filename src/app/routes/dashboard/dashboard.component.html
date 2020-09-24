@@ -15,12 +15,12 @@
 </div>
 
 <div nz-row [nzGutter]="24">
-  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="18">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
     <nz-card [nzLoading]="recordsAnalysisLoading" nzTitle="日支出曲线" [nzBordered]="false" class="mb-0">
       <div starkG2plotArea *ngIf="recordsAnalysisData" [options]="recordsAnalysisData"></div>
     </nz-card>
   </div>
-  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="6">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
     <nz-card nzTitle="累计资产" [nzBordered]="false" class="mb-lg" [nzBodyStyle]="{ 'text-align': 'center' }">
       <g2-water-wave [title]="'累计结余'" *ngIf="water" [percent]="water.percent" [height]="161"></g2-water-wave>
       <div class="rank">
@@ -44,8 +44,27 @@
 </div>
 
 <div nz-row [nzGutter]="24">
-  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">
-    <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="最近5笔支出" class="mb-0">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
+    <nz-card [nzLoading]="loading" nzTitle="本月支出分类" [nzBordered]="false" class="sales-card mb-0" style="min-height: 419px;">
+      <g2-pie
+        *ngIf="categoriesData"
+        [data]="categoriesData"
+        [hasLegend]="true"
+        subTitle="总支出"
+        [height]="248"
+        [lineWidth]="4"
+        [total]="categoriesTotal"
+        [valueFormat]="handlePieValueFormat"
+      >
+      </g2-pie>
+    </nz-card>
+    <nz-card nzTitle="热门标签" [nzBordered]="false" class="my-card-body">
+      <g2-tag-cloud [data]="tags" [height]="165" *ngIf="tags"></g2-tag-cloud>
+    </nz-card>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
+    <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="最近6笔支出" class="mb-0">
       <nz-list>
         <ng-container *ngFor="let item of lastRecords">
           <nz-list-item *ngFor="let record of item.records" [nzContent]="nzContent">
@@ -59,16 +78,12 @@
                 </div>
               </ng-template>
               <ng-template #nzDescription>
-                {{ record.date | _date }}
+                {{ record.date | _date: 'MM-dd HH:ii' }}
               </ng-template>
             </nz-list-item-meta>
             <ng-template #nzContent>
               <div class="width-sm">
-                <p>
-                  {{ record?.account.name }}
-                </p>
-              </div>
-              <div class="width-sm">
+                <p><nz-badge [nzColor]="record.account?.color" [nzText]="record.account?.name"></nz-badge></p>
                 <p [ngClass]="record.direction === 'expense' ? 'text-red' : 'text-green'">
                   {{ record.direction === 'expense' ? '-' : '' }}
                   {{ record.currency_code }}
@@ -81,36 +96,11 @@
       </nz-list>
     </nz-card>
   </div>
-
-  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="12">
-    <nz-card [nzLoading]="loading" nzTitle="本月支出分类" [nzBordered]="false" style="height: 469px;">
-      <div starkG2plotDonut *ngIf="categoriesOptions" [options]="categoriesOptions" style="width: 500px;"></div>
-    </nz-card>
-  </div>
 </div>
 
 <div nz-row [nzGutter]="24">
-  <div nz-col nzXs="24" nzSm="24" nzLg="6" class="mb-lg">
-    <nz-card nzTitle="热门标签" [nzBordered]="false" class="my-card-body">
-      <g2-tag-cloud [data]="tags" [height]="165" *ngIf="tags"></g2-tag-cloud>
-    </nz-card>
-  </div>
-  <div nz-col nzXs="24" nzSm="24" nzLg="6" class="mb-lg">
-    <nz-card nzTitle="资产状况" [nzBordered]="false" class="my-card-body">
-      <div class="text-center">
-        <g2-gauge
-          title="健康率"
-          *ngIf="accountsOverview"
-          height="164"
-          [percent]="accountsOverview?.percent"
-          [color]="accountsOverview?.color"
-          bgColor="#f50"
-        ></g2-gauge>
-      </div>
-    </nz-card>
-  </div>
   <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12">
-    <nz-card nzTitle="账号" [nzBordered]="false" class="my-card-body">
+    <nz-card nzTitle="余额最多的3个账号" [nzBordered]="false" class="my-card-body">
       <nz-list>
         <nz-list-item *ngFor="let item of accounts">
           <nz-list-item-meta [nzAvatar]="nzAvatar">
@@ -126,6 +116,20 @@
           {{ item.balance | _currency }}
         </nz-list-item>
       </nz-list>
+    </nz-card>
+  </div>
+  <div nz-col nzXs="24" nzSm="24" nzLg="12" class="mb-lg">
+    <nz-card nzTitle="资产状况" [nzBordered]="false" class="my-card-body">
+      <div class="text-center">
+        <g2-gauge
+          title="健康率"
+          *ngIf="accountsOverview"
+          height="164"
+          [percent]="accountsOverview?.percent"
+          [color]="accountsOverview?.color"
+          bgColor="#f50"
+        ></g2-gauge>
+      </div>
     </nz-card>
   </div>
 </div>

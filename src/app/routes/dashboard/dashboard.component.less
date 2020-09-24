@@ -4,9 +4,36 @@
   .my-card-body {
     height: 250px;
   }
+  .sales-card {
+    .bar {
+      padding: 0 0 32px 32px;
+    }
+    .rank {
+      padding: 0 32px 32px 72px;
+    }
+    .ant-tabs-bar {
+      padding-left: 16px;
+      .ant-tabs-nav .ant-tabs-tab {
+        padding-top: 16px;
+        padding-bottom: 14px;
+        line-height: 24px;
+      }
+    }
+    .ant-tabs-extra-content {
+      padding-right: 24px;
+      line-height: 55px;
+    }
+    .ant-card-head {
+      position: relative;
+    }
+    .ant-card-head-title {
+      align-items: normal;
+    }
+  }
+
   .rank {
     min-height: 208px;
-    padding: 0 50px;
+    padding: 0 10px;
   }
   .rank-list {
     margin: 25px 0 0;
@@ -33,5 +60,8 @@
         text-overflow: ellipsis;
       }
     }
+  }
+  .g2-pie__legend-block .g2-pie__chart {
+    margin: 0;
   }
 }

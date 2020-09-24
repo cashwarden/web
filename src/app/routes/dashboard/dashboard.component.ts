@@ -19,6 +19,8 @@ export class DashboardComponent implements OnInit {
   tags: G2TagCloudData[];
 
   categoriesOptions: any;
+  categoriesData: G2PieData[];
+  categoriesTotal = 0;
 
   recordsAnalysisData: any;
   recordsAnalysisLoading = true;
@@ -46,7 +48,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getLastRecords() {
-    this.http.get('/api/records', { pageSize: 5, transaction_type: 'expense' }).subscribe((res) => {
+    this.http.get('/api/records', { pageSize: 6, transaction_type: 'expense' }).subscribe((res) => {
       this.lastRecords = res.data.items;
       this.loading = false;
       this.cdr.detectChanges();
@@ -84,13 +86,10 @@ export class DashboardComponent implements OnInit {
 
   getCategoryiesData() {
     this.http.get('/api/categories/analysis').subscribe((res) => {
-      this.categoriesOptions = {
-        forceFit: true,
-        radius: 0.8,
-        data: res.data.filter((i: any) => i.y > 0),
-        angleField: 'y',
-        colorField: 'x',
-      };
+      this.categoriesData = res.data.filter((i: any) => i.y > 0);
+      if (this.categoriesData) {
+        this.categoriesTotal = this.categoriesData.reduce((pre, now) => Math.round((now.y + pre) * 100) / 100, 0);
+      }
       this.loading = false;
       this.cdr.detectChanges();
     });

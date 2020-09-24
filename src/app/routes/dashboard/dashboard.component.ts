@@ -18,7 +18,6 @@ export class DashboardComponent implements OnInit {
   data: any = {};
   tags: G2TagCloudData[];
 
-  categoriesOptions: any;
   categoriesData: G2PieData[];
   categoriesTotal = 0;
 
@@ -103,7 +102,6 @@ export class DashboardComponent implements OnInit {
       this.water = [...this.recordsOverview].pop();
       this.recordsOverview.pop();
       this.water.percent = ((this.water.overview.surplus / this.water.overview.income) * 100).toFixed(2);
-      // this.accountsOverview.percent = accounts.data.total_assets / accounts.data.net_asset;
       this.cdr.detectChanges();
     });
   }

@@ -1,14 +1,13 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-record-create-by-desc',
   templateUrl: './create-by-desc.component.html',
 })
 export class RecordCreateByDescComponent {
-  @Output() created = new EventEmitter<boolean>();
+  @Output() created = new EventEmitter<{}>();
 
   i: { description?: string } = {};
 
@@ -23,7 +22,8 @@ export class RecordCreateByDescComponent {
       }
       this.msgSrv.success('添加成功');
       this.i.description = '';
-      this.created.emit(true);
+      const q = { page: 1, pageSize: 50 };
+      this.created.emit(q);
     });
   }
 }

@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { CacheService } from '@delon/cache';
 import { SFComponent, SFRadioWidgetSchema, SFSchema, SFSelectWidgetSchema, SFTextareaWidgetSchema, SFValue } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { toDate } from '@delon/util';
@@ -13,6 +14,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 export class RecordFormComponent implements OnInit {
   record: any = {};
   selectData: any = {};
+  selectCacheKey = 'RECORD_SEARCH_SELECT_CACHE_KEY';
 
   form = {
     type: 'expense',
@@ -29,14 +31,20 @@ export class RecordFormComponent implements OnInit {
     status: 'done',
   };
 
-  constructor(private http: _HttpClient, private modal: NzModalRef, private msgSrv: NzMessageService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private http: _HttpClient,
+    private modal: NzModalRef,
+    private msgSrv: NzMessageService,
+    private cdr: ChangeDetectorRef,
+    private cache: CacheService,
+  ) {}
 
   ngOnInit(): void {
     if (this.record) {
       this.form = this.record;
       this.form.date = toDate(this.record.date);
     }
-
+    this.selectData = this.cache.getNone(this.selectCacheKey);
     this.changeCategroy(this.form.type);
   }
 

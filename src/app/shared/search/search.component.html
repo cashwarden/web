@@ -1,0 +1,24 @@
+<nz-card [nzBordered]="false">
+  <form nz-form #f="ngForm" se-container size="compact" (ngSubmit)="search()" gutter="24" labelWidth="80">
+    <se label="关键词" col="4">
+      <input nz-input [(ngModel)]="q.keyword" name="keyword" placeholder="搜索描述/备注/标签" />
+    </se>
+
+    <se *ngFor="let selectLabel of selectLabels" [label]="selectLabel.label" col="4">
+      <nz-select [(ngModel)]="q[selectLabel.key]" [name]="selectLabel.key" [nzPlaceHolder]="'全部'" nzShowSearch nzAllowClear>
+        <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectData[selectLabel.key]">
+          <i nz-icon nzIconfont="icon-{{ i.icon }}" *ngIf="i.icon"></i>{{ i.name }}
+        </nz-option>
+      </nz-select>
+    </se>
+    <se label="日期" col="2">
+      <nz-range-picker [(ngModel)]="date" name="date"></nz-range-picker>
+      <a (click)="setDate('today')" class="data-extra">今天</a> / <a (click)="setDate('week')">本周</a> /
+      <a (click)="setDate('month')">本月</a> / <a (click)="setDate('year')">本年</a>
+    </se>
+    <se col="1">
+      <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading">查询</button>
+      <button nz-button type="reset" (click)="reset()" class="mx-sm">重置</button></se
+    >
+  </form>
+</nz-card>

@@ -19,6 +19,7 @@ import { G2TagCloudModule } from '@delon/chart/tag-cloud';
 import { G2TimelineModule } from '@delon/chart/timeline';
 import { G2WaterWaveModule } from '@delon/chart/water-wave';
 import { NgxG2plotModule } from 'ngx-g2plot';
+import { RecordSearchComponent } from './search/search.component';
 
 // #region third libs
 
@@ -28,7 +29,7 @@ const THIRDMODULES = [NgxG2plotModule];
 
 // #region your componets & directives
 
-const COMPONENTS = [];
+const COMPONENTS = [RecordSearchComponent];
 const DIRECTIVES = [];
 
 // #endregion

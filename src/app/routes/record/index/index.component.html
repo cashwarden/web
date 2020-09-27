@@ -2,7 +2,7 @@
   <nz-card [nzBordered]="false">
     <div nz-row [nzGutter]="{ xs: 6, sm: 16, md: 24, lg: 32 }">
       <div nz-col>
-        <app-record-create-by-desc (created)="onCreated($event)"></app-record-create-by-desc>
+        <app-record-create-by-desc (created)="reloadData($event)"></app-record-create-by-desc>
       </div>
       <div nz-col>
         <button nz-button (click)="form()" [nzType]="'default'">
@@ -18,28 +18,9 @@
   </nz-card>
 </div>
 
+<app-record-search (searched)="reloadData($event)" (reseted)="reloadData($event)" [q]="q"></app-record-search>
+
 <nz-card [nzBordered]="false">
-  <form nz-form #f="ngForm" se-container size="compact" (ngSubmit)="search()" gutter="24" labelWidth="80">
-    <se label="关键词" col="4">
-      <input nz-input [(ngModel)]="q.keyword" name="keyword" placeholder="搜索描述/备注/标签" />
-    </se>
-
-    <se *ngFor="let selectLabel of selectLabels" [label]="selectLabel.label" col="4">
-      <nz-select [(ngModel)]="q[selectLabel.key]" [name]="selectLabel.key" [nzPlaceHolder]="'全部'" nzShowSearch nzAllowClear>
-        <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.id" *ngFor="let i of selectData[selectLabel.key]">
-          <i nz-icon nzIconfont="icon-{{ i.icon }}" *ngIf="i.icon"></i>{{ i.name }}
-        </nz-option>
-      </nz-select>
-    </se>
-    <se label="日期" col="4">
-      <nz-range-picker [(ngModel)]="date" name="date"></nz-range-picker>
-    </se>
-    <se col="1">
-      <button nz-button type="submit" [nzType]="'primary'" [nzLoading]="loading">查询</button>
-      <button nz-button type="reset" (click)="reset()" class="mx-sm">重置</button></se
-    >
-  </form>
-
   <nz-divider></nz-divider>
   <nz-list [nzLoading]="loading">
     <ng-container *ngFor="let item of list">

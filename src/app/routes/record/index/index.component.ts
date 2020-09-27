@@ -13,26 +13,14 @@ import { RecordFormComponent } from './../form/form.component';
   templateUrl: './index.component.html',
 })
 export class RecordIndexComponent implements OnInit {
-  // q:{page:number} = {}
   q: any = {
     page: 1,
     pageSize: 50,
   };
-  date: [];
-
   list: Array<{ date: string; records: []; in: string; out: string }> = [];
-
   loading = true;
   loadingMore = true;
-  expandForm = false;
-  selectData: any = {};
-  selectLabels: any = [
-    { key: 'account_id', label: '账户' },
-    { key: 'category_id', label: '分类' },
-    // { key: 'tags', label: '所属标签' },
-    { key: 'transaction_type', label: '类型' },
-    { key: 'source', label: '来源' },
-  ];
+
   overview: [];
   pagination: { totalCount: number; pageCount: number; currentPage: number; perPage: number };
 
@@ -41,25 +29,17 @@ export class RecordIndexComponent implements OnInit {
     private msg: NzMessageService,
     private modal: ModalHelper,
     private cdr: ChangeDetectorRef,
-    private datePipe: DatePipe,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.getData();
-    this.loadSelect('/api/accounts', 'account_id');
-    this.loadSelect('/api/categories', 'category_id');
-    this.loadSelect('/api/tags', 'tags');
-    this.loadSelect('/api/transactions/types', 'transaction_type');
-    this.loadSelect('/api/records/sources', 'source');
   }
 
   getData(): void {
     this.loading = true;
     this.loadingMore = true;
-    if (this.date) {
-      this.q.date = this.date.map((item: any) => this.datePipe.transform(item, 'yyyy-MM-dd')).join('~');
-    }
+
     const q = {};
     Object.entries(this.q)
       .filter(([, value]) => value !== null)
@@ -89,27 +69,6 @@ export class RecordIndexComponent implements OnInit {
     });
   }
 
-  loadSelect(url: string, key: string) {
-    this.http.get(url).subscribe((res: any) => {
-      if (res.code !== 0) {
-        this.msg.warning(res.message);
-        return;
-      }
-      if (res.data) {
-        if (key === 'tags') {
-          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.name, name: item.name }));
-        } else if (['transaction_type', 'source'].includes(key)) {
-          this.selectData[key] = res.data.map((item: any) => ({ id: item.type, name: item.name }));
-        } else if (['account_id', 'category_id'].includes(key)) {
-          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name, icon: item.icon_name }));
-        } else {
-          this.selectData[key] = res.data.items.map((item: any) => ({ id: item.id, name: item.name }));
-        }
-        this.cdr.detectChanges();
-      }
-    });
-  }
-
   disabled(record: any): boolean {
     if (record.transaction.id) {
       return true;
@@ -118,7 +77,7 @@ export class RecordIndexComponent implements OnInit {
   }
 
   form(record: { id?: number; transaction?: {} } = {}): void {
-    this.modal.create(RecordFormComponent, { record: record.transaction, selectData: this.selectData }, { size: 'md' }).subscribe((res) => {
+    this.modal.create(RecordFormComponent, { record: record.transaction }, { size: 'md' }).subscribe((res) => {
       this.q.page = 1;
       this.getData();
       this.cdr.detectChanges();
@@ -151,23 +110,11 @@ export class RecordIndexComponent implements OnInit {
     });
   }
 
-  onCreated(created: boolean) {
-    if (created) {
+  reloadData(value: {}) {
+    if (value) {
+      this.q.page = 1;
+      this.q = value;
       this.getData();
     }
-  }
-
-  search(): void {
-    this.q.page = 1;
-    this.getData();
-  }
-
-  reset(): void {
-    this.date = [];
-    this.q = {
-      page: 1,
-      pageSize: 50,
-    };
-    this.getData();
   }
 }

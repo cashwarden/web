@@ -1,0 +1,83 @@
+<div class="pt-lg">
+  <app-record-search (searched)="reloadData($event)" (reseted)="reloadData($event)" [date]="date"></app-record-search>
+</div>
+<div nz-row [nzGutter]="24">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
+    <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="分类饼图" class="mb-0">
+      <g2-pie
+        *ngIf="!loading"
+        [hasLegend]="true"
+        title="总支出"
+        subTitle="总支出"
+        [total]="pieData.total.expense"
+        [valueFormat]="handlePieValueFormat"
+        [data]="pieData.expense"
+        height="240"
+      ></g2-pie>
+
+      <g2-pie
+        *ngIf="!loading"
+        [hasLegend]="true"
+        title="总收入"
+        subTitle="总收入"
+        [total]="pieData.total.income"
+        [valueFormat]="handlePieValueFormat"
+        [data]="pieData.income"
+        height="240"
+      ></g2-pie>
+    </nz-card>
+    <nz-card [nzLoading]="loading" [nzBordered]="false" class="ant-card__body-nopadding record-sum-card">
+      <nz-tabset *ngIf="recordSumData" (nzSelectedIndexChange)="changeTab($event)">
+        <nz-tab *ngFor="let tab of tabs" [nzTitle]="tab.name">
+          <div class="bar">
+            <g2-bar
+              *ngIf="tab.show && recordSumData.expense.length"
+              height="295"
+              [title]="'支出' + tab.name"
+              [data]="recordSumData.expense"
+            ></g2-bar>
+
+            <g2-bar
+              *ngIf="tab.show && recordSumData.income.length"
+              height="295"
+              [title]="'收入' + tab.name"
+              [data]="recordSumData.income"
+            ></g2-bar>
+          </div>
+        </nz-tab>
+      </nz-tabset>
+    </nz-card>
+  </div>
+
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
+    <nz-card [nzLoading]="loading" [nzBordered]="false" nzTitle="分类统计" class="mb-0">
+      <ng-container *ngFor="let type of types">
+        <st
+          #st
+          [data]="data ? data[type] : null"
+          [loading]="loading"
+          [columns]="columns"
+          size="middle"
+          [page]="{ show: false }"
+          [body]="body"
+        >
+          <ng-template #body>
+            <tr>
+              <td><strong>合计</strong></td>
+              <td class="text-right">
+                <strong>{{ (data?.total)[type] }}</strong>
+              </td>
+            </tr>
+            <tr *ngIf="type === 'income'">
+              <td><strong>结余</strong></td>
+              <td class="text-right">
+                <strong>{{ data.total.surplus }}</strong>
+              </td>
+            </tr>
+          </ng-template>
+        </st>
+      </ng-container>
+    </nz-card>
+  </div>
+</div>
+<div nz-row [nzGutter]="24"></div>

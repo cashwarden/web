@@ -1,7 +1,8 @@
-import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { XlsxService } from '@delon/abc/xlsx';
 import { ModalHelper, _HttpClient } from '@delon/theme';
+import format from 'date-fns/format';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { RecurrenceFormComponent } from '../../recurrence/form/form.component';
 import { RecordImportComponent } from '../import/import.component';
@@ -30,6 +31,7 @@ export class RecordIndexComponent implements OnInit {
     private modal: ModalHelper,
     private cdr: ChangeDetectorRef,
     private router: Router,
+    private xlsx: XlsxService,
   ) {}
 
   ngOnInit(): void {
@@ -78,10 +80,27 @@ export class RecordIndexComponent implements OnInit {
   }
 
   import(): void {
-    this.modal.create(RecordImportComponent, {}, { size: 'md' }).subscribe((res) => {
+    this.modal.create(RecordImportComponent, {}, { size: 'lg' }).subscribe((res) => {
       this.q.page = 1;
       this.getData();
       this.cdr.detectChanges();
+    });
+  }
+
+  download(): void {
+    const initData = [['账单日期', '类别', '类型', '金额', '标签', '描述', '备注', '账户1', '账户2']];
+    this.http.get('/api/transactions/export').subscribe((res: any) => {
+      const data = initData.concat(res.data);
+      const now = format(new Date(), 'yyyy-MM-dd');
+      this.xlsx.export({
+        sheets: [
+          {
+            data,
+            name: 'sheet name',
+          },
+        ],
+        filename: `CashWarden_Export_${now}`,
+      });
     });
   }
 

@@ -10,6 +10,7 @@ import { SidebarNavModule } from '@delon/abc/sidebar-nav';
 import { STModule } from '@delon/abc/st';
 import { SVModule } from '@delon/abc/sv';
 import { TagSelectModule } from '@delon/abc/tag-select';
+import { XlsxModule } from '@delon/abc/xlsx';
 import { G2CustomModule } from '@delon/chart/custom';
 import { TrendModule } from '@delon/chart/trend';
 
@@ -27,5 +28,6 @@ export const SHARED_DELON_MODULES = [
   DownFileModule,
   TrendModule,
   G2CustomModule,
+  XlsxModule,
   // ReuseTabModule,
 ];

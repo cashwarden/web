@@ -7,6 +7,27 @@
   </a>
 </p>
 
+<nz-collapse>
+  <nz-collapse-panel nzHeader="导入模版说明" [nzActive]="false">
+    <nz-table #basicTable [nzData]="dataSet" nzSize="small" [nzShowPagination]="false">
+      <thead>
+        <tr>
+          <th>列名</th>
+          <th>描述</th>
+          <th>是否必须</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.column_name }}</td>
+          <td>{{ data.description }}</td>
+          <td>{{ data.required }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-collapse-panel>
+</nz-collapse>
+
 <nz-upload nzType="drag" nzAction="/api/transactions/upload" nzAccept=".csv" (nzChange)="handleChange($event)">
   <p class="ant-upload-drag-icon">
     <i nz-icon nzType="inbox"></i>

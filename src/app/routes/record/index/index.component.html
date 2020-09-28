@@ -9,10 +9,12 @@
           <i nz-icon nzType="plus"></i>
           <span>经典记账</span>
         </button>
-
-        <button nz-button (click)="import()" [nzType]="'default'">
-          <span>导入</span>
-        </button>
+      </div>
+      <div nz-col class="text-right">
+        <nz-button-group>
+          <button nz-button (click)="import()">导入</button>
+          <button nz-button (click)="download()" nz-tooltip nzTooltipTitle="导出暂不包括「余额调整」类型记录">导出</button>
+        </nz-button-group>
       </div>
     </div>
   </nz-card>

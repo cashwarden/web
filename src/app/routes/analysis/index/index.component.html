@@ -1,5 +1,5 @@
 <div class="pt-lg">
-  <app-record-search (searched)="reloadData($event)" (reseted)="reloadData($event)" [date]="date"></app-record-search>
+  <app-record-search (searched)="reloadData($event)" (reseted)="reloadData($event)"></app-record-search>
 </div>
 <div nz-row [nzGutter]="24">
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="16">
@@ -9,7 +9,7 @@
         [hasLegend]="true"
         title="总支出"
         subTitle="总支出"
-        [total]="pieData.total.expense"
+        [total]="pieData.total.expense | _currency"
         [valueFormat]="handlePieValueFormat"
         [data]="pieData.expense"
         height="240"
@@ -20,7 +20,7 @@
         [hasLegend]="true"
         title="总收入"
         subTitle="总收入"
-        [total]="pieData.total.income"
+        [total]="pieData.total.income | _currency"
         [valueFormat]="handlePieValueFormat"
         [data]="pieData.income"
         height="240"
@@ -36,7 +36,8 @@
               [title]="'支出' + tab.name"
               [data]="recordSumData.expense"
             ></g2-bar>
-
+          </div>
+          <div class="bar">
             <g2-bar
               *ngIf="tab.show && recordSumData.income.length"
               height="295"
@@ -65,13 +66,13 @@
             <tr>
               <td><strong>合计</strong></td>
               <td class="text-right">
-                <strong>{{ (data?.total)[type] }}</strong>
+                <strong>{{ (data?.total)[type] | _currency }}</strong>
               </td>
             </tr>
             <tr *ngIf="type === 'income'">
               <td><strong>结余</strong></td>
               <td class="text-right">
-                <strong>{{ data.total.surplus }}</strong>
+                <strong>{{ data.total.surplus | _currency }}</strong>
               </td>
             </tr>
           </ng-template>

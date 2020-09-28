@@ -69,13 +69,6 @@ export class RecordIndexComponent implements OnInit {
     });
   }
 
-  disabled(record: any): boolean {
-    if (record.transaction.id) {
-      return true;
-    }
-    return false;
-  }
-
   form(record: { id?: number; transaction?: {} } = {}): void {
     this.modal.create(RecordFormComponent, { record: record.transaction }, { size: 'md' }).subscribe((res) => {
       this.q.page = 1;

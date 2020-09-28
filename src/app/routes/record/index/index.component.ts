@@ -99,7 +99,10 @@ export class RecordIndexComponent implements OnInit {
             name: 'sheet name',
           },
         ],
-        filename: `CashWarden_Export_${now}`,
+        opts: {
+          bookType: 'csv',
+        },
+        filename: `CashWarden_Export_${now}.csv`,
       });
     });
   }

@@ -40,7 +40,7 @@ export class RecordSearchComponent implements OnInit {
 
   loadSelect(url: string, key: string) {
     this.loading = true;
-    this.http.get(url).subscribe((res: any) => {
+    this.http.get(url, { pageSize: 50 }).subscribe((res: any) => {
       if (res.data) {
         if (key === 'tags') {
           this.selectData[key] = res.data.items.map((item: any) => ({ id: item.name, name: item.name }));

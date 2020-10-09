@@ -18,7 +18,7 @@ RUN npm install
 COPY . /app
 
 # Build the app
-RUN npm run build:prod
+RUN npm run build --prod
 
 # Add configuration files
 COPY image-files/ /

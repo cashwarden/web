@@ -1,5 +1,5 @@
 #!/bin/sh
 
 printf "Starting nginx...\n\n"
-nginx -g "daemon off;"
+# nginx -g "daemon off;"
 

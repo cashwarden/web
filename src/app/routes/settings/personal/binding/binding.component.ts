@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { STColumn, STComponent } from '@delon/abc/st';
-import { SFSchema } from '@delon/form';
-import { ModalHelper, TitleService, _HttpClient } from '@delon/theme';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { SettingsService, TitleService, _HttpClient } from '@delon/theme';
 import { environment } from '@env/environment';
 import { NzIconService } from 'ng-zorro-antd/icon';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -22,6 +20,7 @@ export class SettingsBindingComponent implements OnInit {
     private modal: NzModalService,
     private cdr: ChangeDetectorRef,
     private titleSrv: TitleService,
+    private settings: SettingsService,
   ) {
     this.iconService.fetchFromIconfont({
       scriptUrl: environment.iconfontURl,
@@ -41,12 +40,13 @@ export class SettingsBindingComponent implements OnInit {
   }
 
   bindTelegram() {
+    const telegramBotName = this.settings.app.telegram_bot_name;
     this.http.post('/api/reset-token').subscribe((res) => {
       const code = `/bind/${res.data.reset_token}`;
       this.modal.info({
         nzWidth: '500px',
         nzTitle: '绑定 Telegram 账号',
-        nzContent: `将下面的绑定码复制发送给 Telegram 机器人 <a href="https://t.me/CashwardenBot" target="_blank">@CashwardenBot</a> </br> <code>${code}</code>`,
+        nzContent: `将下面的绑定码复制发送给 Telegram 机器人 <a href="https://t.me/${telegramBotName}" target="_blank">@${telegramBotName}</a> </br> <code>${code}</code>`,
         nzOnOk: () => this.getData(),
       });
     });

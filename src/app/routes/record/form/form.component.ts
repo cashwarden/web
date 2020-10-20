@@ -44,7 +44,7 @@ export class RecordFormComponent implements OnInit {
       this.form.date = toDate(this.record.date);
     }
     this.selectData = this.cache.getNone(this.selectCacheKey);
-    this.changeCategroy(this.form.type);
+    this.changeTransactionType(this.form.type);
   }
 
   save(value: any) {
@@ -62,13 +62,14 @@ export class RecordFormComponent implements OnInit {
     });
   }
 
-  changeCategroy(type: string) {
+  changeTransactionType(type: string) {
     this.http.get('/api/categories', { transaction_type: type }).subscribe((res: any) => {
       if (res.code !== 0) {
         this.msgSrv.warning(res.message);
         return;
       }
       this.selectData.category_id = res.data.items.map((item: any) => ({ id: item.id, name: item.name, icon: item.icon_name }));
+      this.form.category_id = this.selectData.category_id[0].id;
       this.cdr.detectChanges();
     });
   }

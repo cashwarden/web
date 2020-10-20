@@ -4,7 +4,7 @@
 
 <form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)" labelWidth="100">
   <se label="交易类型">
-    <nz-radio-group [(ngModel)]="form.type" nzButtonStyle="solid" name="type" (ngModelChange)="changeCategroy($event)">
+    <nz-radio-group [(ngModel)]="form.type" nzButtonStyle="solid" name="type" (ngModelChange)="changeTransactionType($event)">
       <label nz-radio-button nzValue="expense"> <span>支出</span> </label>
       <label nz-radio-button nzValue="income"> <span>收入</span> </label>
       <label nz-radio-button nzValue="transfer"> <span>转账</span> </label>

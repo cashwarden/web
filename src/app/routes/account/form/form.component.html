@@ -1,9 +1,42 @@
 <div class="modal-header">
-  <div class="modal-title">任务编辑</div>
+  <div class="modal-title">账户编辑</div>
 </div>
-<sf #sf mode="edit" [schema]="schema" [formData]="record" button="none">
-  <div class="modal-footer">
+
+<form nz-form #f="ngForm" se-container="1" (ngSubmit)="save(form)" labelWidth="100">
+  <se label="名称">
+    <input type="text" nz-input [(ngModel)]="form.name" name="name" required />
+  </se>
+  <se label="类型">
+    <nz-select [(ngModel)]="form.type" name="type" required>
+      <nz-option nzCustomContent [nzLabel]="i.name" [nzValue]="i.type" *ngFor="let i of accountTypes">
+        <i nz-icon nzIconfont="icon-{{ i.type }}"></i> {{ i.name }}
+      </nz-option>
+    </nz-select>
+  </se>
+  <se label="余额">
+    <nz-input-group [nzAddOnAfter]="addOnAfterBtn">
+      <input nz-input type="number" [(ngModel)]="form.currency_balance" name="currency_balance" required />
+      <ng-template #addOnAfterBtn>
+        <nz-select [(ngModel)]="form.currency_code" name="currency_code" style="width: 80px;">
+          <nz-option nzLabel="CNY" nzValue="CNY"></nz-option>
+        </nz-select>
+      </ng-template>
+    </nz-input-group>
+  </se>
+  <se label="状态">
+    <nz-radio-group [(ngModel)]="form.status" nzButtonStyle="solid" name="status">
+      <label nz-radio-button nzValue="active"> <span>启用</span> </label>
+      <label nz-radio-button nzValue="unactivated"> <span>冻结</span> </label>
+    </nz-radio-group>
+  </se>
+  <se label="默认账号" col="1">
+    <nz-switch [(ngModel)]="form.default" name="default" [nzDisabled]="form.default"></nz-switch>
+  </se>
+  <se label="不计入统计" col="1">
+    <nz-switch [(ngModel)]="form.exclude_from_stats" name="exclude_from_stats"></nz-switch>
+  </se>
+  <se col="1">
     <button nz-button type="button" (click)="close()">关闭</button>
-    <button nz-button type="submit" [nzType]="'primary'" (click)="save(sf.value)" [disabled]="!sf.valid">保存</button>
-  </div>
-</sf>
+    <button nz-button nzType="primary" [disabled]="f.invalid">保存</button>
+  </se>
+</form>

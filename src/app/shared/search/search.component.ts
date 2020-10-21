@@ -31,7 +31,7 @@ export class RecordSearchComponent implements OnInit {
 
   ngOnInit() {
     this.initQ = deepCopy(this.q);
-    this.loadSelect('/api/accounts', 'account_id');
+    this.loadSelect('/api/accounts?status=active', 'account_id');
     this.loadSelect('/api/categories', 'category_id');
     this.loadSelect('/api/tags', 'tags');
     this.loadSelect('/api/transactions/types', 'transaction_type');

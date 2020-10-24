@@ -69,7 +69,7 @@ export class RecordFormComponent implements OnInit {
         return;
       }
       this.selectData.category_id = res.data.items.map((item: any) => ({ id: item.id, name: item.name, icon: item.icon_name }));
-      this.form.category_id = this.selectData.category_id[0].id;
+      this.form.category_id = this.form.category_id ? this.form.category_id : this.selectData.category_id[0].id;
       this.cdr.detectChanges();
     });
   }

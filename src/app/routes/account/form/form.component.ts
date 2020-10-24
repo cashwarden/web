@@ -21,7 +21,7 @@ export class AccountFormComponent implements OnInit {
     exclude_from_stats: false,
   };
   ngOnInit(): void {
-    if (this.record) {
+    if (this.record.id) {
       this.form = this.record;
     }
   }

@@ -40,7 +40,7 @@ export class RecordFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.record) {
-      this.form = this.record;
+      this.form = Object.assign({}, this.record);
       this.form.date = toDate(this.record.date);
     }
     this.selectData = this.cache.getNone(this.selectCacheKey);
@@ -69,7 +69,11 @@ export class RecordFormComponent implements OnInit {
         return;
       }
       this.selectData.category_id = res.data.items.map((item: any) => ({ id: item.id, name: item.name, icon: item.icon_name }));
-      this.form.category_id = this.form.category_id ? this.form.category_id : this.selectData.category_id[0].id;
+      if (!this.record) {
+        this.form.category_id = this.selectData.category_id[0].id;
+      } else {
+        this.form.category_id = this.form.type !== this.record.type ? this.selectData.category_id[0].id : this.record.category_id;
+      }
       this.cdr.detectChanges();
     });
   }

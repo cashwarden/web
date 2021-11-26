@@ -4,7 +4,7 @@ WORKDIR /srv
 
 COPY image-files/ /
 
-COPY /srv/dist /srv
+COPY dist /srv
 
 EXPOSE 80
 
